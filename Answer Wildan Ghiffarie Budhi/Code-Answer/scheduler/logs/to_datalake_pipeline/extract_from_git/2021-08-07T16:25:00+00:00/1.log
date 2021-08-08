@@ -1,0 +1,45 @@
+[2021-08-07 16:34:04,703] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T16:25:00+00:00 [queued]>
+[2021-08-07 16:34:04,725] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T16:25:00+00:00 [queued]>
+[2021-08-07 16:34:04,726] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 16:34:04,727] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 16:34:04,728] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 16:34:04,761] {taskinstance.py:1107} INFO - Executing <Task(PythonOperator): extract_from_git> on 2021-08-07T16:25:00+00:00
+[2021-08-07 16:34:04,768] {standard_task_runner.py:52} INFO - Started process 166 to run task
+[2021-08-07 16:34:04,775] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'to_datalake_pipeline', 'extract_from_git', '2021-08-07T16:25:00+00:00', '--job-id', '2', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/to_datalake_pipeline.py', '--cfg-path', '/tmp/tmpm732l6g3', '--error-file', '/tmp/tmp520op0j2']
+[2021-08-07 16:34:04,776] {standard_task_runner.py:77} INFO - Job 2: Subtask extract_from_git
+[2021-08-07 16:34:04,840] {logging_mixin.py:104} INFO - Running <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T16:25:00+00:00 [running]> on host c8552014663a
+[2021-08-07 16:34:04,906] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=to_datalake_pipeline
+AIRFLOW_CTX_TASK_ID=extract_from_git
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T16:25:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-07T16:25:00+00:00
+[2021-08-07 16:34:04,908] {logging_mixin.py:104} INFO - Downloading data from -> https://raw.githubusercontent.com/rezaprimasatya/DTO-DE-JUN-MID/main/data.zip
+[2021-08-07 16:34:05,650] {logging_mixin.py:104} INFO - Unzipping Data
+[2021-08-07 16:34:05,737] {logging_mixin.py:104} INFO - Transform Data to Pandas Dataframe
+[2021-08-07 16:34:05,967] {logging_mixin.py:104} INFO - Load data to datalake
+[2021-08-07 16:34:05,977] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/operators/python.py", line 150, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/operators/python.py", line 161, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/extract/extract.py", line 104, in extract_data_from_git
+    pipeline.run()
+  File "/opt/airflow/dags/extract/extract.py", line 19, in run
+    self.df_to_datalake(data_dataframes)
+  File "/opt/airflow/dags/extract/extract.py", line 71, in df_to_datalake
+    user=Variable.get("DWH_USER"),
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/variable.py", line 140, in get
+    raise KeyError(f'Variable {key} does not exist')
+KeyError: 'Variable DWH_USER does not exist'
+[2021-08-07 16:34:05,980] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=to_datalake_pipeline, task_id=extract_from_git, execution_date=20210807T162500, start_date=20210807T163404, end_date=20210807T163405
+[2021-08-07 16:34:06,035] {local_task_job.py:149} INFO - Task exited with return code 1

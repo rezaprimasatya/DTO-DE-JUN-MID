@@ -1,0 +1,30 @@
+[2021-08-07 07:34:18,555] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T07:33:13.424583+00:00 [None]>
+[2021-08-07 07:34:18,583] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T07:33:13.424583+00:00 [None]>
+[2021-08-07 07:34:18,584] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 07:34:18,585] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 07:34:18,586] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 07:34:18,595] {taskinstance.py:1107} INFO - Executing <Task(PythonOperator): extract_from_git> on 2021-08-07T07:33:13.424583+00:00
+[2021-08-07 07:34:18,600] {standard_task_runner.py:52} INFO - Started process 525 to run task
+[2021-08-07 07:34:18,607] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'to_datalake_pipeline', 'extract_from_git', '2021-08-07T07:33:13.424583+00:00', '--job-id', '3', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/to_datalake_pipeline.py', '--cfg-path', '/tmp/tmph30ule1m', '--error-file', '/tmp/tmpwplkdnli']
+[2021-08-07 07:34:18,609] {standard_task_runner.py:77} INFO - Job 3: Subtask extract_from_git
+[2021-08-07 07:34:18,654] {logging_mixin.py:104} INFO - Running <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T07:33:13.424583+00:00 [running]> on host 0af53fa45088
+[2021-08-07 07:34:18,696] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=to_datalake_pipeline
+AIRFLOW_CTX_TASK_ID=extract_from_git
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T07:33:13.424583+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-07T07:33:13.424583+00:00
+[2021-08-07 07:34:18,698] {logging_mixin.py:104} INFO - Downloading data from -> https://raw.githubusercontent.com/rezaprimasatya/DTO-DE-JUN-MID/main/data.zip
+[2021-08-07 07:34:19,535] {logging_mixin.py:104} INFO - Unzipping Data
+[2021-08-07 07:34:19,604] {logging_mixin.py:104} INFO - Transform Data to Pandas Dataframe
+[2021-08-07 07:34:19,815] {logging_mixin.py:104} INFO - Load data to datalake
+[2021-08-07 07:34:19,828] {logging_mixin.py:104} INFO - Load table : REGION
+[2021-08-07 07:34:19,832] {logging_mixin.py:104} INFO - Pipeline Error-> (MySQLdb._exceptions.OperationalError) (2003, "Can't connect to MySQL server on '127.0.0.1:3306' (111)")
+(Background on this error at: http://sqlalche.me/e/13/e3q8)
+[2021-08-07 07:34:19,833] {python.py:151} INFO - Done. Returned value was: None
+[2021-08-07 07:34:19,848] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=to_datalake_pipeline, task_id=extract_from_git, execution_date=20210807T073313, start_date=20210807T073418, end_date=20210807T073419
+[2021-08-07 07:34:19,868] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 07:34:19,906] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-07 07:34:19,934] {dagrun.py:444} INFO - Marking run <DagRun to_datalake_pipeline @ 2021-08-07 07:33:13.424583+00:00: manual__2021-08-07T07:33:13.424583+00:00, externally triggered: True> successful

@@ -1,0 +1,2 @@
+We can run the pipeline multiple times per day using Apache Airflow.
+The instruction to run the Airflow on "STEP-BY-STEP INSTRUCTION.pdf" file.

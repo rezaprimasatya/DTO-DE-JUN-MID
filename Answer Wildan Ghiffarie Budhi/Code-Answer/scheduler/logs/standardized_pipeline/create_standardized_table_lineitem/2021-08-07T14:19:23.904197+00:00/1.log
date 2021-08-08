@@ -1,0 +1,88 @@
+[2021-08-07 14:19:25,455] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_lineitem 2021-08-07T14:19:23.904197+00:00 [queued]>
+[2021-08-07 14:19:25,520] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_lineitem 2021-08-07T14:19:23.904197+00:00 [queued]>
+[2021-08-07 14:19:25,521] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:19:25,522] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 14:19:25,523] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:19:25,545] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_lineitem> on 2021-08-07T14:19:23.904197+00:00
+[2021-08-07 14:19:25,567] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_lineitem', '2021-08-07T14:19:23.904197+00:00', '--job-id', '41', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpmnnqa7he', '--error-file', '/tmp/tmpq90ptphr']
+[2021-08-07 14:19:25,569] {standard_task_runner.py:77} INFO - Job 41: Subtask create_standardized_table_lineitem
+[2021-08-07 14:19:25,559] {standard_task_runner.py:52} INFO - Started process 4455 to run task
+[2021-08-07 14:19:25,666] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_lineitem 2021-08-07T14:19:23.904197+00:00 [running]> on host ab70d6dafbc6
+[2021-08-07 14:19:25,779] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_lineitem
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T14:19:23.904197+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-07T14:19:23.904197+00:00
+[2021-08-07 14:19:25,781] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.LINEITEM (
+  `ORDER_KEY` int NOT NULL,
+  `PART_KEY` int NOT NULL,
+  `SUPPLIER_KEY` int NOT NULL,
+  `LINEITEM_KEY` int NOT NULL,
+  `LINEITEM_QUANTITY` int NOT NULL,
+  `LINEITEM_EXTENDEDPRICE` int NOT NULL,
+  `LINEITEM_DISCOUNT` int NOT NULL,
+  `LINEITEM_TAX` int NOT NULL,
+  `LINEITEM_RETURNFLAG` text NOT NULL,
+  `LINEITEM_LINESTATUS` text NOT NULL,
+  `LINEITEM_SHIPDATE` date NOT NULL,
+  `LINEITEM_COMMITDATE` date NOT NULL,
+  `LINEITEM_RECEIPTDATE` date NOT NULL,
+  `LINEITEM_SHIPINSTRUCT` text NOT NULL,
+  `LINEITEM_SHIPMODE` text NOT NULL,
+  `LINEITEM_COMMENT` text NOT NULL,
+  `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ORDER_KEY`,`LINEITEM_KEY`),
+  KEY `PART_KEY` (`PART_KEY`,`SUPPLIER_KEY`),
+  CONSTRAINT `LINEITEM_ibfk_1` FOREIGN KEY (`ORDER_KEY`) REFERENCES `ORDERS` (`ORDER_KEY`),
+  CONSTRAINT `LINEITEM_ibfk_2` FOREIGN KEY (`PART_KEY`, `SUPPLIER_KEY`) REFERENCES `PARTSUPP` (`PART_KEY`, `SUPPLIER_KEY`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+[2021-08-07 14:19:25,801] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 14:19:25,826] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.LINEITEM (
+  `ORDER_KEY` int NOT NULL,
+  `PART_KEY` int NOT NULL,
+  `SUPPLIER_KEY` int NOT NULL,
+  `LINEITEM_KEY` int NOT NULL,
+  `LINEITEM_QUANTITY` int NOT NULL,
+  `LINEITEM_EXTENDEDPRICE` int NOT NULL,
+  `LINEITEM_DISCOUNT` int NOT NULL,
+  `LINEITEM_TAX` int NOT NULL,
+  `LINEITEM_RETURNFLAG` text NOT NULL,
+  `LINEITEM_LINESTATUS` text NOT NULL,
+  `LINEITEM_SHIPDATE` date NOT NULL,
+  `LINEITEM_COMMITDATE` date NOT NULL,
+  `LINEITEM_RECEIPTDATE` date NOT NULL,
+  `LINEITEM_SHIPINSTRUCT` text NOT NULL,
+  `LINEITEM_SHIPMODE` text NOT NULL,
+  `LINEITEM_COMMENT` text NOT NULL,
+  `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ORDER_KEY`,`LINEITEM_KEY`),
+  KEY `PART_KEY` (`PART_KEY`,`SUPPLIER_KEY`),
+  CONSTRAINT `LINEITEM_ibfk_1` FOREIGN KEY (`ORDER_KEY`) REFERENCES `ORDERS` (`ORDER_KEY`),
+  CONSTRAINT `LINEITEM_ibfk_2` FOREIGN KEY (`PART_KEY`, `SUPPLIER_KEY`) REFERENCES `PARTSUPP` (`PART_KEY`, `SUPPLIER_KEY`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;, parameters: None
+[2021-08-07 14:19:25,830] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 184, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 208, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1824, "Failed to open the referenced table 'ORDERS'")
+[2021-08-07 14:19:25,835] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=standardized_pipeline, task_id=create_standardized_table_lineitem, execution_date=20210807T141923, start_date=20210807T141925, end_date=20210807T141925
+[2021-08-07 14:19:25,916] {local_task_job.py:149} INFO - Task exited with return code 1

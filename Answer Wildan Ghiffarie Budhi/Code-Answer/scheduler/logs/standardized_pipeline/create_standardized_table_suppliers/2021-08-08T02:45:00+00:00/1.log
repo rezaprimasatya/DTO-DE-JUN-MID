@@ -1,0 +1,67 @@
+[2021-08-08 02:50:29,301] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_suppliers 2021-08-08T02:45:00+00:00 [queued]>
+[2021-08-08 02:50:29,314] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_suppliers 2021-08-08T02:45:00+00:00 [queued]>
+[2021-08-08 02:50:29,317] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 02:50:29,321] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 02:50:29,322] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 02:50:29,344] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_suppliers> on 2021-08-08T02:45:00+00:00
+[2021-08-08 02:50:29,352] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_suppliers', '2021-08-08T02:45:00+00:00', '--job-id', '77', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpdhpw7z90', '--error-file', '/tmp/tmpwas51gpp']
+[2021-08-08 02:50:29,356] {standard_task_runner.py:77} INFO - Job 77: Subtask create_standardized_table_suppliers
+[2021-08-08 02:50:29,348] {standard_task_runner.py:52} INFO - Started process 1294 to run task
+[2021-08-08 02:50:29,476] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_suppliers 2021-08-08T02:45:00+00:00 [running]> on host 3c97923eccf9
+[2021-08-08 02:50:29,616] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_suppliers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T02:45:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T02:45:00+00:00
+[2021-08-08 02:50:29,618] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.suppliers (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(S_SUPPKEY AS SIGNED) AS SUPPLIER_KEY,
+        S_NAME AS SUPPLIER_NAME,
+        S_ADDRESS AS SUPPLIER_ADDRESS,
+        CAST(S_NATIONKEY AS SIGNED) AS NATION_KEY,
+        S_PHONE AS SUPPLIER_PHONE,
+        S_ACCTBAL AS SUPPLIER_ACCOUNT_BALANCE_TOTAL,
+        S_COMMENT AS SUPPLIER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.SUPPLIER s
+    WHERE 
+        s.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 02:50:29,640] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 02:50:29,658] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.suppliers (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(S_SUPPKEY AS SIGNED) AS SUPPLIER_KEY,
+        S_NAME AS SUPPLIER_NAME,
+        S_ADDRESS AS SUPPLIER_ADDRESS,
+        CAST(S_NATIONKEY AS SIGNED) AS NATION_KEY,
+        S_PHONE AS SUPPLIER_PHONE,
+        S_ACCTBAL AS SUPPLIER_ACCOUNT_BALANCE_TOTAL,
+        S_COMMENT AS SUPPLIER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.SUPPLIER s
+    WHERE 
+        s.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 02:50:29,663] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 02:50:29,701] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_suppliers, execution_date=20210808T024500, start_date=20210808T025029, end_date=20210808T025029
+[2021-08-08 02:50:29,764] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 02:50:29,797] {local_task_job.py:149} INFO - Task exited with return code 0

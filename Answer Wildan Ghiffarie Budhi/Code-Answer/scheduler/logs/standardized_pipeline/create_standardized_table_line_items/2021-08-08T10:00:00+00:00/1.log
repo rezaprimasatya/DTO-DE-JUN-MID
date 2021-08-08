@@ -1,0 +1,261 @@
+[2021-08-08 11:01:02,364] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:02,397] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:02,398] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:02,399] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:01:02,400] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:02,424] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_line_items> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:02,430] {standard_task_runner.py:52} INFO - Started process 11013 to run task
+[2021-08-08 11:01:02,438] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_line_items', '2021-08-08T10:00:00+00:00', '--job-id', '102', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpifwr6_f8', '--error-file', '/tmp/tmpps96lk7d']
+[2021-08-08 11:01:02,441] {standard_task_runner.py:77} INFO - Job 102: Subtask create_standardized_table_line_items
+[2021-08-08 11:01:02,565] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 11:01:02,705] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_line_items
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:02,707] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.line_items (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS ORDER_KEY, 
+        CAST(L_PARTKEY AS SIGNED) AS PART_KEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS SUPPLIER_KEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS LINE_TIME_NUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS LINE_ITEM_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS LINE_ITEM_EXTENDED_PRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS LINE_ITEM_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS LINE_ITEM_TAX, 
+        L_RETURNFLAG AS LINE_ITEM_RETURN_FLAG, 
+        L_LINESTATUS AS LINE_ITEM_STATUS_TYPE, 
+        CAST(L_SHIPDATE AS DATE) AS LINE_ITEM_SHIP_DATE, 
+        CAST(L_COMMITDATE AS DATE) AS LINE_ITEM_COMMIT_DATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS LINE_ITEM_RECEIPT_DATE, 
+        L_SHIPINSTRUCT AS LINE_ITEM_SHIP_INSTRUCTION_TYPE, 
+        L_SHIPMODE AS LINE_ITEM_SHIP_MODE_TYPE, 
+        L_COMMENT AS LINE_ITEM_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM 
+        datalake.LINEITEM l
+    WHERE 
+        l.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0
+[2021-08-08 11:01:02,723] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:01:02,748] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.line_items (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS ORDER_KEY, 
+        CAST(L_PARTKEY AS SIGNED) AS PART_KEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS SUPPLIER_KEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS LINE_TIME_NUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS LINE_ITEM_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS LINE_ITEM_EXTENDED_PRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS LINE_ITEM_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS LINE_ITEM_TAX, 
+        L_RETURNFLAG AS LINE_ITEM_RETURN_FLAG, 
+        L_LINESTATUS AS LINE_ITEM_STATUS_TYPE, 
+        CAST(L_SHIPDATE AS DATE) AS LINE_ITEM_SHIP_DATE, 
+        CAST(L_COMMITDATE AS DATE) AS LINE_ITEM_COMMIT_DATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS LINE_ITEM_RECEIPT_DATE, 
+        L_SHIPINSTRUCT AS LINE_ITEM_SHIP_INSTRUCTION_TYPE, 
+        L_SHIPMODE AS LINE_ITEM_SHIP_MODE_TYPE, 
+        L_COMMENT AS LINE_ITEM_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM 
+        datalake.LINEITEM l
+    WHERE 
+        l.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0, parameters: None
+[2021-08-08 11:01:02,751] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 11:01:02,779] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_line_items, execution_date=20210808T100000, start_date=20210808T110102, end_date=20210808T110102
+[2021-08-08 11:01:02,871] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:01:02,897] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:04:33,882] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:33,912] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:33,912] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:33,913] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:04:33,914] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:33,929] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_line_items> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:33,934] {standard_task_runner.py:52} INFO - Started process 261 to run task
+[2021-08-08 11:04:33,942] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_line_items', '2021-08-08T10:00:00+00:00', '--job-id', '10', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp5m6b683y', '--error-file', '/tmp/tmphwqmsqtz']
+[2021-08-08 11:04:33,943] {standard_task_runner.py:77} INFO - Job 10: Subtask create_standardized_table_line_items
+[2021-08-08 11:04:34,016] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [running]> on host ce886ce1d63a
+[2021-08-08 11:04:34,080] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_line_items
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:34,081] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.line_items (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS ORDER_KEY, 
+        CAST(L_PARTKEY AS SIGNED) AS PART_KEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS SUPPLIER_KEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS LINE_TIME_NUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS LINE_ITEM_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS LINE_ITEM_EXTENDED_PRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS LINE_ITEM_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS LINE_ITEM_TAX, 
+        L_RETURNFLAG AS LINE_ITEM_RETURN_FLAG, 
+        L_LINESTATUS AS LINE_ITEM_STATUS_TYPE, 
+        CAST(L_SHIPDATE AS DATE) AS LINE_ITEM_SHIP_DATE, 
+        CAST(L_COMMITDATE AS DATE) AS LINE_ITEM_COMMIT_DATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS LINE_ITEM_RECEIPT_DATE, 
+        L_SHIPINSTRUCT AS LINE_ITEM_SHIP_INSTRUCTION_TYPE, 
+        L_SHIPMODE AS LINE_ITEM_SHIP_MODE_TYPE, 
+        L_COMMENT AS LINE_ITEM_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM 
+        datalake.LINEITEM l
+    WHERE 
+        l.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0
+[2021-08-08 11:04:34,093] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:04:34,116] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.line_items (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS ORDER_KEY, 
+        CAST(L_PARTKEY AS SIGNED) AS PART_KEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS SUPPLIER_KEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS LINE_TIME_NUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS LINE_ITEM_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS LINE_ITEM_EXTENDED_PRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS LINE_ITEM_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS LINE_ITEM_TAX, 
+        L_RETURNFLAG AS LINE_ITEM_RETURN_FLAG, 
+        L_LINESTATUS AS LINE_ITEM_STATUS_TYPE, 
+        CAST(L_SHIPDATE AS DATE) AS LINE_ITEM_SHIP_DATE, 
+        CAST(L_COMMITDATE AS DATE) AS LINE_ITEM_COMMIT_DATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS LINE_ITEM_RECEIPT_DATE, 
+        L_SHIPINSTRUCT AS LINE_ITEM_SHIP_INSTRUCTION_TYPE, 
+        L_SHIPMODE AS LINE_ITEM_SHIP_MODE_TYPE, 
+        L_COMMENT AS LINE_ITEM_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM 
+        datalake.LINEITEM l
+    WHERE 
+        l.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0, parameters: None
+[2021-08-08 11:04:34,142] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 11:04:34,162] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_line_items, execution_date=20210808T100000, start_date=20210808T110433, end_date=20210808T110434
+[2021-08-08 11:04:34,206] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:04:34,241] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:55:53,365] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:53,390] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:53,391] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:53,393] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:55:53,395] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:53,425] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_line_items> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:53,450] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_line_items', '2021-08-08T10:00:00+00:00', '--job-id', '8', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpqpqkg8zf', '--error-file', '/tmp/tmptt_3et0r']
+[2021-08-08 11:55:53,452] {standard_task_runner.py:77} INFO - Job 8: Subtask create_standardized_table_line_items
+[2021-08-08 11:55:53,436] {standard_task_runner.py:52} INFO - Started process 314 to run task
+[2021-08-08 11:55:53,552] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_line_items 2021-08-08T10:00:00+00:00 [running]> on host 7f57f947ae95
+[2021-08-08 11:55:53,686] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_line_items
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:53,691] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.line_items (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS ORDER_KEY, 
+        CAST(L_PARTKEY AS SIGNED) AS PART_KEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS SUPPLIER_KEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS LINE_TIME_NUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS LINE_ITEM_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS LINE_ITEM_EXTENDED_PRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS LINE_ITEM_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS LINE_ITEM_TAX, 
+        L_RETURNFLAG AS LINE_ITEM_RETURN_FLAG, 
+        L_LINESTATUS AS LINE_ITEM_STATUS_TYPE, 
+        CAST(L_SHIPDATE AS DATE) AS LINE_ITEM_SHIP_DATE, 
+        CAST(L_COMMITDATE AS DATE) AS LINE_ITEM_COMMIT_DATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS LINE_ITEM_RECEIPT_DATE, 
+        L_SHIPINSTRUCT AS LINE_ITEM_SHIP_INSTRUCTION_TYPE, 
+        L_SHIPMODE AS LINE_ITEM_SHIP_MODE_TYPE, 
+        L_COMMENT AS LINE_ITEM_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM 
+        datalake.LINEITEM l
+    WHERE 
+        l.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0
+[2021-08-08 11:55:53,709] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:55:53,722] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.line_items (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS ORDER_KEY, 
+        CAST(L_PARTKEY AS SIGNED) AS PART_KEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS SUPPLIER_KEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS LINE_TIME_NUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS LINE_ITEM_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS LINE_ITEM_EXTENDED_PRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS LINE_ITEM_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS LINE_ITEM_TAX, 
+        L_RETURNFLAG AS LINE_ITEM_RETURN_FLAG, 
+        L_LINESTATUS AS LINE_ITEM_STATUS_TYPE, 
+        CAST(L_SHIPDATE AS DATE) AS LINE_ITEM_SHIP_DATE, 
+        CAST(L_COMMITDATE AS DATE) AS LINE_ITEM_COMMIT_DATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS LINE_ITEM_RECEIPT_DATE, 
+        L_SHIPINSTRUCT AS LINE_ITEM_SHIP_INSTRUCTION_TYPE, 
+        L_SHIPMODE AS LINE_ITEM_SHIP_MODE_TYPE, 
+        L_COMMENT AS LINE_ITEM_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM 
+        datalake.LINEITEM l
+    WHERE 
+        l.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0, parameters: None
+[2021-08-08 11:55:53,750] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 11:55:53,780] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_line_items, execution_date=20210808T100000, start_date=20210808T115553, end_date=20210808T115553
+[2021-08-08 11:55:53,856] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:55:53,884] {local_task_job.py:149} INFO - Task exited with return code 0

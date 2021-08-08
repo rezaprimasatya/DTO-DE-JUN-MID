@@ -1,0 +1,24 @@
+WITH order_data AS (
+	SELECT 
+		oli.ORDER_KEY,
+		oli.CUSTOMER_KEY,
+		oli.ORDER_TOTAL_PRICE,
+		SUM(oli.LINE_ITEM_QUANTITY) AS QUANTITY
+	FROM
+		presentation.order_line_items oli 
+	GROUP BY
+		1, 2, 3
+)
+
+SELECT 
+	o.CUSTOMER_KEY,
+	SUM(o.ORDER_TOTAL_PRICE) AS REVENUE,
+	SUM(o.QUANTITY) as QUANTITY
+FROM
+	order_data o
+GROUP BY
+	1
+ORDER BY
+	2 DESC, 3 DESC
+LIMIT 
+	5

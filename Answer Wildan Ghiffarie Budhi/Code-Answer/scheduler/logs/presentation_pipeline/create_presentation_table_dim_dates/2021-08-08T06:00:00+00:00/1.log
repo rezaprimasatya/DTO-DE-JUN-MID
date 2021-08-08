@@ -1,0 +1,513 @@
+[2021-08-08 06:07:02,507] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 06:07:02,528] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 06:07:02,530] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 06:07:02,531] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 06:07:02,531] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 06:07:02,541] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_dates> on 2021-08-08T06:00:00+00:00
+[2021-08-08 06:07:02,551] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_dates', '2021-08-08T06:00:00+00:00', '--job-id', '283', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpq1hn0cb1', '--error-file', '/tmp/tmp9bcq7j35']
+[2021-08-08 06:07:02,547] {standard_task_runner.py:52} INFO - Started process 4406 to run task
+[2021-08-08 06:07:02,553] {standard_task_runner.py:77} INFO - Job 283: Subtask create_presentation_table_dim_dates
+[2021-08-08 06:07:02,606] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [running]> on host b48e43d568d5
+[2021-08-08 06:07:02,659] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_dates
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:00:00+00:00
+[2021-08-08 06:07:02,661] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.dates (
+    DATE_KEY INT NOT NULL AUTO_INCREMENT,
+    `DAY` INT NOT NULL,
+    `MONTH` INT NOT NULL,
+    `YEAR` INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `DATE_PK` PRIMARY KEY (DATE_KEY),
+    CONSTRAINT `DATE_UNIQUE` UNIQUE KEY (`DAY`, `MONTH`, `YEAR`)
+) AS
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	uniondate
+[2021-08-08 06:07:02,670] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 06:07:02,682] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.dates (
+    DATE_KEY INT NOT NULL AUTO_INCREMENT,
+    `DAY` INT NOT NULL,
+    `MONTH` INT NOT NULL,
+    `YEAR` INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `DATE_PK` PRIMARY KEY (DATE_KEY),
+    CONSTRAINT `DATE_UNIQUE` UNIQUE KEY (`DAY`, `MONTH`, `YEAR`)
+) AS
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	uniondate, parameters: None
+[2021-08-08 06:07:02,683] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 06:07:02,696] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_dates, execution_date=20210808T060000, start_date=20210808T060702, end_date=20210808T060702
+[2021-08-08 06:07:02,726] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 06:07:02,772] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 07:34:20,476] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:34:20,501] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:34:20,502] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:34:20,503] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 07:34:20,504] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:34:20,517] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_dates> on 2021-08-08T06:00:00+00:00
+[2021-08-08 07:34:20,528] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_dates', '2021-08-08T06:00:00+00:00', '--job-id', '25', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpewc1yd2h', '--error-file', '/tmp/tmpn83703vh']
+[2021-08-08 07:34:20,532] {standard_task_runner.py:77} INFO - Job 25: Subtask create_presentation_table_dim_dates
+[2021-08-08 07:34:20,523] {standard_task_runner.py:52} INFO - Started process 471 to run task
+[2021-08-08 07:34:20,601] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [running]> on host d501b83ad3fd
+[2021-08-08 07:34:20,692] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_dates
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:00:00+00:00
+[2021-08-08 07:34:20,694] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.dates (
+    DATE_KEY INT NOT NULL AUTO_INCREMENT,
+    `DAY` INT NOT NULL,
+    `MONTH` INT NOT NULL,
+    `YEAR` INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `DATE_PK` PRIMARY KEY (DATE_KEY),
+    CONSTRAINT `DATE_UNIQUE` UNIQUE KEY (`DAY`, `MONTH`, `YEAR`)
+) AS
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	uniondate
+[2021-08-08 07:34:20,710] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:34:20,722] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.dates (
+    DATE_KEY INT NOT NULL AUTO_INCREMENT,
+    `DAY` INT NOT NULL,
+    `MONTH` INT NOT NULL,
+    `YEAR` INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `DATE_PK` PRIMARY KEY (DATE_KEY),
+    CONSTRAINT `DATE_UNIQUE` UNIQUE KEY (`DAY`, `MONTH`, `YEAR`)
+) AS
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	uniondate, parameters: None
+[2021-08-08 07:34:21,552] {dbapi.py:212} INFO - Rows affected: 2544
+[2021-08-08 07:34:21,568] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_dates, execution_date=20210808T060000, start_date=20210808T073420, end_date=20210808T073421
+[2021-08-08 07:34:21,601] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:34:21,641] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 07:48:09,079] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:48:09,093] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:48:09,094] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:48:09,094] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 07:48:09,095] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:48:09,113] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_dates> on 2021-08-08T06:00:00+00:00
+[2021-08-08 07:48:09,117] {standard_task_runner.py:52} INFO - Started process 509 to run task
+[2021-08-08 07:48:09,122] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_dates', '2021-08-08T06:00:00+00:00', '--job-id', '21', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpg92prezk', '--error-file', '/tmp/tmpb_dej_7o']
+[2021-08-08 07:48:09,124] {standard_task_runner.py:77} INFO - Job 21: Subtask create_presentation_table_dim_dates
+[2021-08-08 07:48:09,185] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_dates 2021-08-08T06:00:00+00:00 [running]> on host 0540c8fa99d2
+[2021-08-08 07:48:09,247] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_dates
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:00:00+00:00
+[2021-08-08 07:48:09,248] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.dates (
+    DATE_KEY INT NOT NULL AUTO_INCREMENT,
+    `DAY` INT NOT NULL,
+    `MONTH` INT NOT NULL,
+    `YEAR` INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `DATE_PK` PRIMARY KEY (DATE_KEY),
+    CONSTRAINT `DATE_UNIQUE` UNIQUE KEY (`DAY`, `MONTH`, `YEAR`)
+) AS
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	uniondate
+[2021-08-08 07:48:09,259] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:48:09,270] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.dates (
+    DATE_KEY INT NOT NULL AUTO_INCREMENT,
+    `DAY` INT NOT NULL,
+    `MONTH` INT NOT NULL,
+    `YEAR` INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `DATE_PK` PRIMARY KEY (DATE_KEY),
+    CONSTRAINT `DATE_UNIQUE` UNIQUE KEY (`DAY`, `MONTH`, `YEAR`)
+) AS
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	uniondate, parameters: None
+[2021-08-08 07:48:09,689] {dbapi.py:212} INFO - Rows affected: 2544
+[2021-08-08 07:48:09,699] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_dates, execution_date=20210808T060000, start_date=20210808T074809, end_date=20210808T074809
+[2021-08-08 07:48:09,722] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:48:09,741] {local_task_job.py:149} INFO - Task exited with return code 0

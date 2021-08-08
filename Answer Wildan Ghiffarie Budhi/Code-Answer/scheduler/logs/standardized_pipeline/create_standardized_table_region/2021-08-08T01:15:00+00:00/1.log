@@ -1,0 +1,38 @@
+[2021-08-08 01:23:00,513] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_region 2021-08-08T01:15:00+00:00 [queued]>
+[2021-08-08 01:23:00,533] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_region 2021-08-08T01:15:00+00:00 [queued]>
+[2021-08-08 01:23:00,534] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 01:23:00,535] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 01:23:00,536] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 01:23:00,548] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_region> on 2021-08-08T01:15:00+00:00
+[2021-08-08 01:23:00,560] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_region', '2021-08-08T01:15:00+00:00', '--job-id', '3', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpxc6mm06q', '--error-file', '/tmp/tmpbd0lamvf']
+[2021-08-08 01:23:00,556] {standard_task_runner.py:52} INFO - Started process 153 to run task
+[2021-08-08 01:23:00,562] {standard_task_runner.py:77} INFO - Job 3: Subtask create_standardized_table_region
+[2021-08-08 01:23:00,611] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_region 2021-08-08T01:15:00+00:00 [running]> on host 02070657999c
+[2021-08-08 01:23:00,645] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1294, in _prepare_and_execute_task_with_callbacks
+    self.render_templates(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1793, in render_templates
+    self.task.render_template_fields(context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/baseoperator.py", line 992, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/baseoperator.py", line 1005, in _do_render_template_fields
+    rendered_content = self.render_template(content, context, jinja_env, seen_oids)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/baseoperator.py", line 1042, in render_template
+    return jinja_env.from_string(content).render(**context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "/home/airflow/.local/lib/python3.6/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/airflow/.local/lib/python3.6/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "<template>", line 2, in top-level template code
+  File "/home/airflow/.local/lib/python3.6/site-packages/jinja2/loaders.py", line 197, in get_source
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: ./standardized/region/query.sql
+[2021-08-08 01:23:00,648] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=standardized_pipeline, task_id=create_standardized_table_region, execution_date=20210808T011500, start_date=20210808T012300, end_date=20210808T012300
+[2021-08-08 01:23:00,699] {local_task_job.py:149} INFO - Task exited with return code 1

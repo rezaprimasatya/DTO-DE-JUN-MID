@@ -1,0 +1,236 @@
+[2021-08-08 08:04:29,967] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:04:30,024] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:04:30,025] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:04:30,028] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:04:30,030] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:04:30,053] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_regions> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:04:30,060] {standard_task_runner.py:52} INFO - Started process 1063 to run task
+[2021-08-08 08:04:30,086] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_regions', '2021-08-08T07:00:00+00:00', '--job-id', '25', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmptnusf67f', '--error-file', '/tmp/tmpjef7dy3d']
+[2021-08-08 08:04:30,088] {standard_task_runner.py:77} INFO - Job 25: Subtask standardized_regions
+[2021-08-08 08:04:30,197] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [running]> on host e453c42896df
+[2021-08-08 08:04:30,308] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:04:30,309] {mysql.py:70} INFO - Executing: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 08:04:30,324] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:04:30,345] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 08:04:30,350] {dbapi.py:212} INFO - Rows affected: 5
+[2021-08-08 08:04:30,385] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_regions, execution_date=20210808T070000, start_date=20210808T080429, end_date=20210808T080430
+[2021-08-08 08:04:30,435] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:04:30,483] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:20:22,325] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:20:22,355] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:20:22,356] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:20:22,356] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:20:22,357] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:20:22,373] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_regions> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:20:22,378] {standard_task_runner.py:52} INFO - Started process 379 to run task
+[2021-08-08 08:20:22,383] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_regions', '2021-08-08T07:00:00+00:00', '--job-id', '21', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp1m31xk62', '--error-file', '/tmp/tmpahpj034v']
+[2021-08-08 08:20:22,385] {standard_task_runner.py:77} INFO - Job 21: Subtask standardized_regions
+[2021-08-08 08:20:22,431] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [running]> on host 99d60a4279b8
+[2021-08-08 08:20:22,483] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:20:22,485] {mysql.py:70} INFO - Executing: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 08:20:22,496] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:20:22,506] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 08:20:22,508] {dbapi.py:212} INFO - Rows affected: 5
+[2021-08-08 08:20:22,522] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_regions, execution_date=20210808T070000, start_date=20210808T082022, end_date=20210808T082022
+[2021-08-08 08:20:22,548] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:20:22,559] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:31:39,657] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:31:39,681] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:31:39,683] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:31:39,684] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:31:39,685] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:31:39,709] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_regions> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:31:39,717] {standard_task_runner.py:52} INFO - Started process 252 to run task
+[2021-08-08 08:31:39,728] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_regions', '2021-08-08T07:00:00+00:00', '--job-id', '17', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpg975p7wo', '--error-file', '/tmp/tmp907tivpa']
+[2021-08-08 08:31:39,731] {standard_task_runner.py:77} INFO - Job 17: Subtask standardized_regions
+[2021-08-08 08:31:39,820] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [running]> on host 5e970160fe16
+[2021-08-08 08:31:39,932] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:31:39,934] {mysql.py:70} INFO - Executing: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 08:31:39,967] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:31:39,988] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 08:31:39,997] {dbapi.py:212} INFO - Rows affected: 5
+[2021-08-08 08:31:40,041] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_regions, execution_date=20210808T070000, start_date=20210808T083139, end_date=20210808T083140
+[2021-08-08 08:31:40,113] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:31:40,154] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:51:10,363] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:51:10,391] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:51:10,394] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:51:10,396] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:51:10,397] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:51:10,413] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_regions> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:51:10,420] {standard_task_runner.py:52} INFO - Started process 309 to run task
+[2021-08-08 08:51:10,431] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_regions', '2021-08-08T07:00:00+00:00', '--job-id', '15', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp7twqw6j3', '--error-file', '/tmp/tmp_wy6vpwi']
+[2021-08-08 08:51:10,435] {standard_task_runner.py:77} INFO - Job 15: Subtask standardized_regions
+[2021-08-08 08:51:10,500] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_regions 2021-08-08T07:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 08:51:10,572] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:51:10,576] {mysql.py:70} INFO - Executing: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 08:51:10,596] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:51:10,613] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.regions
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 08:51:10,617] {dbapi.py:212} INFO - Rows affected: 5
+[2021-08-08 08:51:10,646] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_regions, execution_date=20210808T070000, start_date=20210808T085110, end_date=20210808T085110
+[2021-08-08 08:51:10,713] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:51:10,765] {local_task_job.py:149} INFO - Task exited with return code 0

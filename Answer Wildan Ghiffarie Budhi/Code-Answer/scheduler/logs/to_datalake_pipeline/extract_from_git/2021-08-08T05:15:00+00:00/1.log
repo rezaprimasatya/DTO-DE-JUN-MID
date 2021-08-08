@@ -1,0 +1,70 @@
+[2021-08-08 05:20:01,234] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:20:01,252] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:20:01,252] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:20:01,253] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 05:20:01,254] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:20:01,262] {taskinstance.py:1107} INFO - Executing <Task(PythonOperator): extract_from_git> on 2021-08-08T05:15:00+00:00
+[2021-08-08 05:20:01,267] {standard_task_runner.py:52} INFO - Started process 1184 to run task
+[2021-08-08 05:20:01,272] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'to_datalake_pipeline', 'extract_from_git', '2021-08-08T05:15:00+00:00', '--job-id', '93', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/to_datalake_pipeline.py', '--cfg-path', '/tmp/tmpjtnle8fg', '--error-file', '/tmp/tmpdfqhvwqu']
+[2021-08-08 05:20:01,273] {standard_task_runner.py:77} INFO - Job 93: Subtask extract_from_git
+[2021-08-08 05:20:01,324] {logging_mixin.py:104} INFO - Running <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-08T05:15:00+00:00 [running]> on host dbfb9e13da58
+[2021-08-08 05:20:01,378] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=to_datalake_pipeline
+AIRFLOW_CTX_TASK_ID=extract_from_git
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:15:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:15:00+00:00
+[2021-08-08 05:20:01,379] {logging_mixin.py:104} INFO - Downloading data from -> https://raw.githubusercontent.com/rezaprimasatya/DTO-DE-JUN-MID/main/data.zip
+[2021-08-08 05:20:09,591] {logging_mixin.py:104} INFO - Unzipping Data
+[2021-08-08 05:20:09,679] {logging_mixin.py:104} INFO - Transform Data to Pandas Dataframe
+[2021-08-08 05:20:09,918] {logging_mixin.py:104} INFO - Load data to datalake
+[2021-08-08 05:20:09,961] {logging_mixin.py:104} INFO - Load table : REGION
+[2021-08-08 05:20:09,999] {logging_mixin.py:104} INFO - Load table : NATION
+[2021-08-08 05:20:10,015] {logging_mixin.py:104} INFO - Load table : PART
+[2021-08-08 05:20:10,120] {logging_mixin.py:104} INFO - Load table : SUPPLIER
+[2021-08-08 05:20:10,140] {logging_mixin.py:104} INFO - Load table : PARTSUPP
+[2021-08-08 05:20:10,533] {logging_mixin.py:104} INFO - Load table : CUSTOMER
+[2021-08-08 05:20:10,613] {logging_mixin.py:104} INFO - Load table : ORDERS
+[2021-08-08 05:20:11,507] {logging_mixin.py:104} INFO - Load table : LINEITEM
+[2021-08-08 05:20:17,177] {python.py:151} INFO - Done. Returned value was: None
+[2021-08-08 05:20:17,191] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=to_datalake_pipeline, task_id=extract_from_git, execution_date=20210808T051500, start_date=20210808T052001, end_date=20210808T052017
+[2021-08-08 05:20:17,243] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:20:17,322] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 05:25:11,890] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:25:11,907] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:25:11,908] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:25:11,909] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 05:25:11,910] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:25:11,918] {taskinstance.py:1107} INFO - Executing <Task(PythonOperator): extract_from_git> on 2021-08-08T05:15:00+00:00
+[2021-08-08 05:25:11,927] {standard_task_runner.py:52} INFO - Started process 184 to run task
+[2021-08-08 05:25:11,932] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'to_datalake_pipeline', 'extract_from_git', '2021-08-08T05:15:00+00:00', '--job-id', '7', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/to_datalake_pipeline.py', '--cfg-path', '/tmp/tmppzpkma3l', '--error-file', '/tmp/tmp6u5ofxla']
+[2021-08-08 05:25:11,934] {standard_task_runner.py:77} INFO - Job 7: Subtask extract_from_git
+[2021-08-08 05:25:12,018] {logging_mixin.py:104} INFO - Running <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-08T05:15:00+00:00 [running]> on host b48e43d568d5
+[2021-08-08 05:25:12,088] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=to_datalake_pipeline
+AIRFLOW_CTX_TASK_ID=extract_from_git
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:15:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:15:00+00:00
+[2021-08-08 05:25:12,091] {logging_mixin.py:104} INFO - Downloading data from -> https://raw.githubusercontent.com/rezaprimasatya/DTO-DE-JUN-MID/main/data.zip
+[2021-08-08 05:25:19,881] {logging_mixin.py:104} INFO - Unzipping Data
+[2021-08-08 05:25:20,051] {logging_mixin.py:104} INFO - Transform Data to Pandas Dataframe
+[2021-08-08 05:25:20,441] {logging_mixin.py:104} INFO - Load data to datalake
+[2021-08-08 05:25:20,502] {logging_mixin.py:104} INFO - Load table : REGION
+[2021-08-08 05:25:20,550] {logging_mixin.py:104} INFO - Load table : NATION
+[2021-08-08 05:25:20,566] {logging_mixin.py:104} INFO - Load table : PART
+[2021-08-08 05:25:20,768] {logging_mixin.py:104} INFO - Load table : SUPPLIER
+[2021-08-08 05:25:20,798] {logging_mixin.py:104} INFO - Load table : PARTSUPP
+[2021-08-08 05:25:21,425] {logging_mixin.py:104} INFO - Load table : CUSTOMER
+[2021-08-08 05:25:21,670] {logging_mixin.py:104} INFO - Load table : ORDERS
+[2021-08-08 05:25:22,686] {logging_mixin.py:104} INFO - Load table : LINEITEM
+[2021-08-08 05:25:28,362] {python.py:151} INFO - Done. Returned value was: None
+[2021-08-08 05:25:28,374] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=to_datalake_pipeline, task_id=extract_from_git, execution_date=20210808T051500, start_date=20210808T052511, end_date=20210808T052528
+[2021-08-08 05:25:28,412] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:25:28,485] {local_task_job.py:149} INFO - Task exited with return code 0

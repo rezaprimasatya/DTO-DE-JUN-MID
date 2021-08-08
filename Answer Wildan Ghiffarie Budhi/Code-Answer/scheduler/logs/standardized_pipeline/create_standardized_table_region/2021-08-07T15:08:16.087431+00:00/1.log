@@ -1,0 +1,37 @@
+[2021-08-07 15:08:17,324] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_region 2021-08-07T15:08:16.087431+00:00 [queued]>
+[2021-08-07 15:08:17,363] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_region 2021-08-07T15:08:16.087431+00:00 [queued]>
+[2021-08-07 15:08:17,364] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 15:08:17,365] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 15:08:17,366] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 15:08:17,383] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_region> on 2021-08-07T15:08:16.087431+00:00
+[2021-08-07 15:08:17,388] {standard_task_runner.py:52} INFO - Started process 9000 to run task
+[2021-08-07 15:08:17,401] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_region', '2021-08-07T15:08:16.087431+00:00', '--job-id', '151', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpjwabm6dg', '--error-file', '/tmp/tmp9tcroueq']
+[2021-08-07 15:08:17,403] {standard_task_runner.py:77} INFO - Job 151: Subtask create_standardized_table_region
+[2021-08-07 15:08:17,504] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_region 2021-08-07T15:08:16.087431+00:00 [running]> on host ab70d6dafbc6
+[2021-08-07 15:08:17,648] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_region
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T15:08:16.087431+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-07T15:08:16.087431+00:00
+[2021-08-07 15:08:17,650] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.REGION (
+  `REGION_KEY` int NOT NULL,
+  `REGION_NAME` text NOT NULL,
+  `REGION_COMMENT` text,
+  `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+	
+[2021-08-07 15:08:17,681] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 15:08:17,713] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.REGION (
+  `REGION_KEY` int NOT NULL,
+  `REGION_NAME` text NOT NULL,
+  `REGION_COMMENT` text,
+  `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+	, parameters: None
+[2021-08-07 15:08:17,719] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-07 15:08:17,754] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_region, execution_date=20210807T150816, start_date=20210807T150817, end_date=20210807T150817
+[2021-08-07 15:08:17,897] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 15:08:17,954] {local_task_job.py:149} INFO - Task exited with return code 0

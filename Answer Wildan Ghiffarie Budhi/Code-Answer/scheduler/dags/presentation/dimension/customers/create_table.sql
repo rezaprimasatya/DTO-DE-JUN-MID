@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+{% include 'presentation/dimension/customers/query.sql' %}
+
+LIMIT 0

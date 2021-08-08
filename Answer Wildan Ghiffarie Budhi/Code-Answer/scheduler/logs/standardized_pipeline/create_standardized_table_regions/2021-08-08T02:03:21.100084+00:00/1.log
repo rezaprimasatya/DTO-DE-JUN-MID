@@ -1,0 +1,76 @@
+[2021-08-08 02:03:22,621] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T02:03:21.100084+00:00 [queued]>
+[2021-08-08 02:03:22,717] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T02:03:21.100084+00:00 [queued]>
+[2021-08-08 02:03:22,719] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 02:03:22,721] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 02:03:22,723] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 02:03:22,761] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_regions> on 2021-08-08T02:03:21.100084+00:00
+[2021-08-08 02:03:22,782] {standard_task_runner.py:52} INFO - Started process 3624 to run task
+[2021-08-08 02:03:22,816] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_regions', '2021-08-08T02:03:21.100084+00:00', '--job-id', '20', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpthlm7yyn', '--error-file', '/tmp/tmp0j7xfaak']
+[2021-08-08 02:03:22,835] {standard_task_runner.py:77} INFO - Job 20: Subtask create_standardized_table_regions
+[2021-08-08 02:03:23,094] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T02:03:21.100084+00:00 [running]> on host 02070657999c
+[2021-08-08 02:03:23,392] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T02:03:21.100084+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-08T02:03:21.100084+00:00
+[2021-08-08 02:03:23,396] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS regions AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT
+	FROM
+		datalake.REGION
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 02:03:23,445] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 02:03:23,489] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS regions AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT
+	FROM
+		datalake.REGION
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 02:03:23,494] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 184, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 208, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1046, 'No database selected')
+[2021-08-08 02:03:23,502] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=standardized_pipeline, task_id=create_standardized_table_regions, execution_date=20210808T020321, start_date=20210808T020322, end_date=20210808T020323
+[2021-08-08 02:03:23,618] {local_task_job.py:149} INFO - Task exited with return code 1

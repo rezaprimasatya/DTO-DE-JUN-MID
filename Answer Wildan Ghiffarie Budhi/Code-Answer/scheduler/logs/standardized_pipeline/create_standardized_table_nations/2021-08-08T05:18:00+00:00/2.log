@@ -1,0 +1,58 @@
+[2021-08-08 07:16:42,108] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T05:18:00+00:00 [queued]>
+[2021-08-08 07:16:42,136] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T05:18:00+00:00 [queued]>
+[2021-08-08 07:16:42,137] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:16:42,138] {taskinstance.py:1088} INFO - Starting attempt 2 of 11
+[2021-08-08 07:16:42,138] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:16:42,152] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_nations> on 2021-08-08T05:18:00+00:00
+[2021-08-08 07:16:42,158] {standard_task_runner.py:52} INFO - Started process 360 to run task
+[2021-08-08 07:16:42,170] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_nations', '2021-08-08T05:18:00+00:00', '--job-id', '16', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp7iqm8f_2', '--error-file', '/tmp/tmpv9xle5aa']
+[2021-08-08 07:16:42,175] {standard_task_runner.py:77} INFO - Job 16: Subtask create_standardized_table_nations
+[2021-08-08 07:16:42,279] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T05:18:00+00:00 [running]> on host 3678c365a3ae
+[2021-08-08 07:16:42,398] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:18:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:18:00+00:00
+[2021-08-08 07:16:42,399] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 07:16:42,438] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 177, in run
+    with closing(self.get_conn()) as conn:
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/hooks/mysql.py", line 164, in get_conn
+    getattr(self, self.conn_name_attr)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/base.py", line 67, in get_connection
+    conn = Connection.get_connection_from_secrets(conn_id)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/connection.py", line 379, in get_connection_from_secrets
+    raise AirflowNotFoundException(f"The conn_id `{conn_id}` isn't defined")
+airflow.exceptions.AirflowNotFoundException: The conn_id `dwh_id` isn't defined
+[2021-08-08 07:16:42,441] {taskinstance.py:1551} INFO - Marking task as UP_FOR_RETRY. dag_id=standardized_pipeline, task_id=create_standardized_table_nations, execution_date=20210808T051800, start_date=20210808T071642, end_date=20210808T071642
+[2021-08-08 07:16:42,512] {local_task_job.py:149} INFO - Task exited with return code 1

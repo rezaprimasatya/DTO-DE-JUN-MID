@@ -1,0 +1,40 @@
+WITH order_data AS (
+	SELECT 
+		oli.ORDER_KEY,
+		oli.CUSTOMER_NATION_KEY,
+		oli.ORDER_TOTAL_PRICE
+	FROM
+		presentation.order_line_items oli 
+	GROUP BY
+		1, 2, 3
+),
+
+top_nation AS (
+	SELECT 
+		o.CUSTOMER_NATION_KEY,
+		SUM(o.ORDER_TOTAL_PRICE) AS REVENUE
+	FROM 
+		order_data o
+	GROUP BY
+		o.CUSTOMER_NATION_KEY
+	ORDER BY
+		2 DESC
+	LIMIT 
+		5
+)
+
+SELECT
+	oli.LINE_ITEM_SHIP_MODE_TYPE,
+	COUNT(oli.LINE_ITEM_SHIP_MODE_TYPE) AS `COUNT`
+FROM 
+	presentation.order_line_items oli 
+WHERE 
+	oli.CUSTOMER_NATION_KEY IN (
+		SELECT CUSTOMER_NATION_KEY FROM top_nation
+	)
+GROUP BY
+	oli.LINE_ITEM_SHIP_MODE_TYPE 
+ORDER BY
+	2 DESC 
+LIMIT
+	1

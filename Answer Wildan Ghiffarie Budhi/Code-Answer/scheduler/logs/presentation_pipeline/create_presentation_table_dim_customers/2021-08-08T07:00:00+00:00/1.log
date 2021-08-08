@@ -1,0 +1,268 @@
+[2021-08-08 08:05:28,532] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:05:28,561] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:05:28,562] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:05:28,562] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:05:28,563] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:05:28,573] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:05:28,578] {standard_task_runner.py:52} INFO - Started process 1161 to run task
+[2021-08-08 08:05:28,584] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '29', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpj1exv86z', '--error-file', '/tmp/tmpzmnpk9l9']
+[2021-08-08 08:05:28,586] {standard_task_runner.py:77} INFO - Job 29: Subtask create_presentation_table_dim_customers
+[2021-08-08 08:05:28,650] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host e453c42896df
+[2021-08-08 08:05:28,720] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:05:28,722] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0
+[2021-08-08 08:05:28,737] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:05:28,754] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0, parameters: None
+[2021-08-08 08:05:28,773] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 08:05:28,793] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_customers, execution_date=20210808T070000, start_date=20210808T080528, end_date=20210808T080528
+[2021-08-08 08:05:28,836] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:05:28,886] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:21:21,589] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:21:21,611] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:21:21,612] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:21:21,612] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:21:21,613] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:21:21,620] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:21:21,624] {standard_task_runner.py:52} INFO - Started process 485 to run task
+[2021-08-08 08:21:21,629] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '29', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpboxv0hqh', '--error-file', '/tmp/tmp4vgndf3t']
+[2021-08-08 08:21:21,632] {standard_task_runner.py:77} INFO - Job 29: Subtask create_presentation_table_dim_customers
+[2021-08-08 08:21:21,678] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host 99d60a4279b8
+[2021-08-08 08:21:21,734] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:21:21,735] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0
+[2021-08-08 08:21:21,745] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:21:21,756] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0, parameters: None
+[2021-08-08 08:21:21,774] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 08:21:21,788] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_customers, execution_date=20210808T070000, start_date=20210808T082121, end_date=20210808T082121
+[2021-08-08 08:21:21,815] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:21:21,846] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:32:39,892] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:32:39,909] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:32:39,910] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:32:39,911] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:32:39,911] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:32:39,928] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:32:39,937] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '23', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpt6ha4227', '--error-file', '/tmp/tmph6htpb05']
+[2021-08-08 08:32:39,932] {standard_task_runner.py:52} INFO - Started process 351 to run task
+[2021-08-08 08:32:39,938] {standard_task_runner.py:77} INFO - Job 23: Subtask create_presentation_table_dim_customers
+[2021-08-08 08:32:39,991] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host 5e970160fe16
+[2021-08-08 08:32:40,053] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:32:40,054] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0
+[2021-08-08 08:32:40,063] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:32:40,072] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0, parameters: None
+[2021-08-08 08:32:40,088] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 08:32:40,103] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_customers, execution_date=20210808T070000, start_date=20210808T083239, end_date=20210808T083240
+[2021-08-08 08:32:40,133] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:32:40,154] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:52:08,406] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:52:08,429] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:52:08,430] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:52:08,431] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:52:08,431] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:52:08,445] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:52:08,450] {standard_task_runner.py:52} INFO - Started process 401 to run task
+[2021-08-08 08:52:08,459] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '23', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpn_q1lzzn', '--error-file', '/tmp/tmp_rn2pt4j']
+[2021-08-08 08:52:08,460] {standard_task_runner.py:77} INFO - Job 23: Subtask create_presentation_table_dim_customers
+[2021-08-08 08:52:08,523] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 08:52:08,590] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:52:08,591] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0
+[2021-08-08 08:52:08,603] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:52:08,615] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.customers (
+    CUSTOMER_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `CUSTOMER_PK` PRIMARY KEY (CUSTOMER_KEY)
+) AS
+
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0, parameters: None
+[2021-08-08 08:52:08,629] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 08:52:08,646] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_customers, execution_date=20210808T070000, start_date=20210808T085208, end_date=20210808T085208
+[2021-08-08 08:52:08,704] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:52:08,753] {local_task_job.py:149} INFO - Task exited with return code 0

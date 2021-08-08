@@ -1,0 +1,76 @@
+WITH order_dates AS (
+	SELECT 
+		ORDER_DATE as date
+	FROM 
+		standardized.orders
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		ORDER_DATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINE_ITEM_SHIP_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_SHIP_DATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINE_ITEM_COMMIT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_COMMIT_DATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINE_ITEM_RECEIPT_DATE as date
+	FROM
+		standardized.line_items
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+	GROUP BY 
+		LINE_ITEM_RECEIPT_DATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+),
+
+extracted_date AS (
+	SELECT
+		EXTRACT(DAY FROM `date`) AS DAY,
+		EXTRACT(WEEK FROM `date`) AS WEEK,
+		EXTRACT(MONTH FROM `date`) AS MONTH,
+		EXTRACT(QUARTER FROM `date`) AS QUARTER,
+		EXTRACT(YEAR FROM `date`) AS YEAR
+	FROM 
+		uniondate
+)
+
+SELECT
+	NULL as DATE_KEY,
+	`DAY`,
+	`WEEK`,
+	`MONTH`,
+	`QUARTER`,
+	`YEAR`,
+	IF( `MONTH` >= 7 AND `MONTH` <= 12, `YEAR` + 1, `YEAR`) AS FISCAL_YEAR,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	extracted_date

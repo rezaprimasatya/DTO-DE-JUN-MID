@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS presentation.nations (
+    NATION_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `NATIONS_PK` PRIMARY KEY (NATION_KEY)
+) AS
+
+{% include 'presentation/dimension/nations/query.sql' %}
+
+LIMIT 0

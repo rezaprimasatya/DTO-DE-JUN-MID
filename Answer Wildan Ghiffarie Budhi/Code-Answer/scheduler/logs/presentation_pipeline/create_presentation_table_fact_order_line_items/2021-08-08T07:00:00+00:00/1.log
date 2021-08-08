@@ -1,0 +1,535 @@
+[2021-08-08 08:21:24,201] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:21:24,215] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:21:24,215] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:21:24,216] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:21:24,216] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:21:24,223] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_fact_order_line_items> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:21:24,231] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_fact_order_line_items', '2021-08-08T07:00:00+00:00', '--job-id', '39', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpza9gi29a', '--error-file', '/tmp/tmpj_wrt5zm']
+[2021-08-08 08:21:24,227] {standard_task_runner.py:52} INFO - Started process 501 to run task
+[2021-08-08 08:21:24,232] {standard_task_runner.py:77} INFO - Job 39: Subtask create_presentation_table_fact_order_line_items
+[2021-08-08 08:21:24,272] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [running]> on host 99d60a4279b8
+[2021-08-08 08:21:24,319] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_fact_order_line_items
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:21:24,320] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.order_line_items (
+    PART_KEY INT NOT NULL,
+    SUPPLIER_KEY INT NOT NULL,
+	CUSTOMER_KEY INT NOT NULL,
+	NATION_KEY INT NOT NULL,
+	NATION_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_KEY_FK` FOREIGN KEY (`PART_KEY`),
+    CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (`SUPPLIER_KEY`),
+	CONSTRAINT `CUSTOMER_KEY_FK` FOREIGN KEY (`CUSTOMER_KEY`),
+	CONSTRAINT `NATION_KEY_FK` FOREIGN KEY (`NATION_KEY`),
+	CONSTRAINT `NATION_KEY_FK` FOREIGN KEY (`NATION_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+) AS
+
+SELECT 
+	li.PART_KEY,
+	li.SUPPLIER_KEY,
+	o.CUSTOMER_KEY,
+	c.NATION_KEY AS CUSTOMER_NATION_KEY,
+	s.NATION_KEY AS SUPPLIER_NATION_KEY,
+	od.DATE_KEY AS ORDER_DATE_KEY,
+	sd.DATE_KEY AS LINE_ITEM_SHIP_DATE_KEY,
+	cd.DATE_KEY AS LINE_ITEM_COMMIT_DATE_KEY,
+	rd.DATE_KEY as LINE_ITEM_RECEIPT_DATE_KEY,
+	li.ORDER_KEY,
+	o.ORDER_STATUS_TYPE,
+	o.ORDER_TOTAL_PRICE,
+	o.ORDER_PRIORITY_TYPE,
+	o.ORDER_CLERK,
+	o.ORDER_SHIPPRIORITY,
+	ps.PART_AVAILABILITY_QUANTITY,
+	ps.PART_SUPPLY_COST,
+	li.LINE_TIME_NUMBER,
+	li.LINE_ITEM_QUANTITY,
+	li.LINE_ITEM_EXTENDED_PRICE,
+	li.LINE_ITEM_DISCOUNT,
+	li.LINE_ITEM_TAX,
+	li.LINE_ITEM_RETURN_FLAG,
+	li.LINE_ITEM_STATUS_TYPE,
+	li.LINE_ITEM_SHIP_INSTRUCTION_TYPE,
+	li.LINE_ITEM_SHIP_MODE_TYPE
+FROM 
+	standardized.line_items li 
+LEFT JOIN
+	standardized.part_suppliers ps 
+	ON li.PART_KEY = ps.PART_KEY 
+	AND li.SUPPLIER_KEY = ps.SUPPLIER_KEY 
+LEFT JOIN 
+	standardized.orders o 
+	ON o.ORDER_KEY = li.ORDER_KEY 
+LEFT JOIN 
+	standardized.customers c 
+	ON o.CUSTOMER_KEY = c.CUSTOMER_KEY 
+LEFT JOIN 
+	standardized.suppliers s 
+	ON li.SUPPLIER_KEY = s.SUPPLIER_KEY
+LEFT JOIN 
+	presentation.dates od 
+	ON od.`DAY` = EXTRACT(DAY FROM o.ORDER_DATE)
+	AND od.`MONTH` = EXTRACT(MONTH FROM o.ORDER_DATE)
+	AND od.`YEAR` = EXTRACT(YEAR FROM o.ORDER_DATE)
+LEFT JOIN 
+	presentation.dates sd 
+	ON sd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_SHIP_DATE)
+LEFT JOIN 
+	presentation.dates cd 
+	ON cd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_COMMIT_DATE)
+LEFT JOIN 
+	presentation.dates rd 
+	ON rd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_RECEIPT_DATE)
+WHERE 
+	li.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0
+[2021-08-08 08:21:24,328] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:21:24,337] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.order_line_items (
+    PART_KEY INT NOT NULL,
+    SUPPLIER_KEY INT NOT NULL,
+	CUSTOMER_KEY INT NOT NULL,
+	NATION_KEY INT NOT NULL,
+	NATION_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+	DATE_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_KEY_FK` FOREIGN KEY (`PART_KEY`),
+    CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (`SUPPLIER_KEY`),
+	CONSTRAINT `CUSTOMER_KEY_FK` FOREIGN KEY (`CUSTOMER_KEY`),
+	CONSTRAINT `NATION_KEY_FK` FOREIGN KEY (`NATION_KEY`),
+	CONSTRAINT `NATION_KEY_FK` FOREIGN KEY (`NATION_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+	CONSTRAINT `DATE_KEY_FK` FOREIGN KEY (`DATE_KEY`),
+) AS
+
+SELECT 
+	li.PART_KEY,
+	li.SUPPLIER_KEY,
+	o.CUSTOMER_KEY,
+	c.NATION_KEY AS CUSTOMER_NATION_KEY,
+	s.NATION_KEY AS SUPPLIER_NATION_KEY,
+	od.DATE_KEY AS ORDER_DATE_KEY,
+	sd.DATE_KEY AS LINE_ITEM_SHIP_DATE_KEY,
+	cd.DATE_KEY AS LINE_ITEM_COMMIT_DATE_KEY,
+	rd.DATE_KEY as LINE_ITEM_RECEIPT_DATE_KEY,
+	li.ORDER_KEY,
+	o.ORDER_STATUS_TYPE,
+	o.ORDER_TOTAL_PRICE,
+	o.ORDER_PRIORITY_TYPE,
+	o.ORDER_CLERK,
+	o.ORDER_SHIPPRIORITY,
+	ps.PART_AVAILABILITY_QUANTITY,
+	ps.PART_SUPPLY_COST,
+	li.LINE_TIME_NUMBER,
+	li.LINE_ITEM_QUANTITY,
+	li.LINE_ITEM_EXTENDED_PRICE,
+	li.LINE_ITEM_DISCOUNT,
+	li.LINE_ITEM_TAX,
+	li.LINE_ITEM_RETURN_FLAG,
+	li.LINE_ITEM_STATUS_TYPE,
+	li.LINE_ITEM_SHIP_INSTRUCTION_TYPE,
+	li.LINE_ITEM_SHIP_MODE_TYPE
+FROM 
+	standardized.line_items li 
+LEFT JOIN
+	standardized.part_suppliers ps 
+	ON li.PART_KEY = ps.PART_KEY 
+	AND li.SUPPLIER_KEY = ps.SUPPLIER_KEY 
+LEFT JOIN 
+	standardized.orders o 
+	ON o.ORDER_KEY = li.ORDER_KEY 
+LEFT JOIN 
+	standardized.customers c 
+	ON o.CUSTOMER_KEY = c.CUSTOMER_KEY 
+LEFT JOIN 
+	standardized.suppliers s 
+	ON li.SUPPLIER_KEY = s.SUPPLIER_KEY
+LEFT JOIN 
+	presentation.dates od 
+	ON od.`DAY` = EXTRACT(DAY FROM o.ORDER_DATE)
+	AND od.`MONTH` = EXTRACT(MONTH FROM o.ORDER_DATE)
+	AND od.`YEAR` = EXTRACT(YEAR FROM o.ORDER_DATE)
+LEFT JOIN 
+	presentation.dates sd 
+	ON sd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_SHIP_DATE)
+LEFT JOIN 
+	presentation.dates cd 
+	ON cd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_COMMIT_DATE)
+LEFT JOIN 
+	presentation.dates rd 
+	ON rd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_RECEIPT_DATE)
+WHERE 
+	li.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0, parameters: None
+[2021-08-08 08:21:24,338] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 184, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 208, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',\n    CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (`SUPPLIER_KEY`),\n\tCONSTRAINT `CU' at line 12")
+[2021-08-08 08:21:24,340] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=presentation_pipeline, task_id=create_presentation_table_fact_order_line_items, execution_date=20210808T070000, start_date=20210808T082124, end_date=20210808T082124
+[2021-08-08 08:21:24,366] {local_task_job.py:149} INFO - Task exited with return code 1
+[2021-08-08 08:32:41,963] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:32:41,973] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:32:41,973] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:32:41,974] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:32:41,974] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:32:41,986] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_fact_order_line_items> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:32:41,990] {standard_task_runner.py:52} INFO - Started process 377 to run task
+[2021-08-08 08:32:41,994] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_fact_order_line_items', '2021-08-08T07:00:00+00:00', '--job-id', '31', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpnmm1v0b_', '--error-file', '/tmp/tmp_m_5q7m0']
+[2021-08-08 08:32:41,996] {standard_task_runner.py:77} INFO - Job 31: Subtask create_presentation_table_fact_order_line_items
+[2021-08-08 08:32:42,037] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [running]> on host 5e970160fe16
+[2021-08-08 08:32:42,102] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_fact_order_line_items
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:32:42,103] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.order_line_items (
+    PART_KEY INT NOT NULL,
+	SUPPLIER_KEY INT NOT NULL,
+	CUSTOMER_KEY INT NOT NULL,
+	CUSTOMER_NATION_KEY INT NOT NULL,
+	SUPPLIER_NATION_KEY INT NOT NULL,
+	ORDER_DATE_KEY INT NOT NULL,
+	LINE_ITEM_SHIP_DATE_KEY INT NOT NULL,
+	LINE_ITEM_COMMIT_DATE_KEY INT NOT NULL,
+	LINE_ITEM_RECEIPT_DATE_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_KEY_FK` FOREIGN KEY (PART_KEY) REFERENCES presentation.parts(PART_KEY),
+	CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (SUPPLIER_KEY) REFERENCES presentation.suppliers(SUPPLIER_KEY),
+	CONSTRAINT `CUSTOMER_KEY_FK` FOREIGN KEY (CUSTOMER_KEY) REFERENCES presentation.customer(CUSTOMER_KEY),
+	CONSTRAINT `CUSTOMER_NATION_KEY_FK` FOREIGN KEY (CUSTOMER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `SUPPLIER_NATION_KEY_FK` FOREIGN KEY (SUPPLIER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `ORDER_DATE_KEY_FK` FOREIGN KEY (ORDER_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_SHIP_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_SHIP_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_COMMIT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_COMMIT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_RECEIPT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_RECEIPT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY)
+) AS
+
+SELECT 
+	li.PART_KEY,
+	li.SUPPLIER_KEY,
+	o.CUSTOMER_KEY,
+	c.NATION_KEY AS CUSTOMER_NATION_KEY,
+	s.NATION_KEY AS SUPPLIER_NATION_KEY,
+	od.DATE_KEY AS ORDER_DATE_KEY,
+	sd.DATE_KEY AS LINE_ITEM_SHIP_DATE_KEY,
+	cd.DATE_KEY AS LINE_ITEM_COMMIT_DATE_KEY,
+	rd.DATE_KEY as LINE_ITEM_RECEIPT_DATE_KEY,
+	li.ORDER_KEY,
+	o.ORDER_STATUS_TYPE,
+	o.ORDER_TOTAL_PRICE,
+	o.ORDER_PRIORITY_TYPE,
+	o.ORDER_CLERK,
+	o.ORDER_SHIPPRIORITY,
+	ps.PART_AVAILABILITY_QUANTITY,
+	ps.PART_SUPPLY_COST,
+	li.LINE_TIME_NUMBER,
+	li.LINE_ITEM_QUANTITY,
+	li.LINE_ITEM_EXTENDED_PRICE,
+	li.LINE_ITEM_DISCOUNT,
+	li.LINE_ITEM_TAX,
+	li.LINE_ITEM_RETURN_FLAG,
+	li.LINE_ITEM_STATUS_TYPE,
+	li.LINE_ITEM_SHIP_INSTRUCTION_TYPE,
+	li.LINE_ITEM_SHIP_MODE_TYPE
+FROM 
+	standardized.line_items li 
+LEFT JOIN
+	standardized.part_suppliers ps 
+	ON li.PART_KEY = ps.PART_KEY 
+	AND li.SUPPLIER_KEY = ps.SUPPLIER_KEY 
+LEFT JOIN 
+	standardized.orders o 
+	ON o.ORDER_KEY = li.ORDER_KEY 
+LEFT JOIN 
+	standardized.customers c 
+	ON o.CUSTOMER_KEY = c.CUSTOMER_KEY 
+LEFT JOIN 
+	standardized.suppliers s 
+	ON li.SUPPLIER_KEY = s.SUPPLIER_KEY
+LEFT JOIN 
+	presentation.dates od 
+	ON od.`DAY` = EXTRACT(DAY FROM o.ORDER_DATE)
+	AND od.`MONTH` = EXTRACT(MONTH FROM o.ORDER_DATE)
+	AND od.`YEAR` = EXTRACT(YEAR FROM o.ORDER_DATE)
+LEFT JOIN 
+	presentation.dates sd 
+	ON sd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_SHIP_DATE)
+LEFT JOIN 
+	presentation.dates cd 
+	ON cd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_COMMIT_DATE)
+LEFT JOIN 
+	presentation.dates rd 
+	ON rd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_RECEIPT_DATE)
+WHERE 
+	li.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0
+[2021-08-08 08:32:42,111] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:32:42,120] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.order_line_items (
+    PART_KEY INT NOT NULL,
+	SUPPLIER_KEY INT NOT NULL,
+	CUSTOMER_KEY INT NOT NULL,
+	CUSTOMER_NATION_KEY INT NOT NULL,
+	SUPPLIER_NATION_KEY INT NOT NULL,
+	ORDER_DATE_KEY INT NOT NULL,
+	LINE_ITEM_SHIP_DATE_KEY INT NOT NULL,
+	LINE_ITEM_COMMIT_DATE_KEY INT NOT NULL,
+	LINE_ITEM_RECEIPT_DATE_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_KEY_FK` FOREIGN KEY (PART_KEY) REFERENCES presentation.parts(PART_KEY),
+	CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (SUPPLIER_KEY) REFERENCES presentation.suppliers(SUPPLIER_KEY),
+	CONSTRAINT `CUSTOMER_KEY_FK` FOREIGN KEY (CUSTOMER_KEY) REFERENCES presentation.customer(CUSTOMER_KEY),
+	CONSTRAINT `CUSTOMER_NATION_KEY_FK` FOREIGN KEY (CUSTOMER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `SUPPLIER_NATION_KEY_FK` FOREIGN KEY (SUPPLIER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `ORDER_DATE_KEY_FK` FOREIGN KEY (ORDER_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_SHIP_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_SHIP_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_COMMIT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_COMMIT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_RECEIPT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_RECEIPT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY)
+) AS
+
+SELECT 
+	li.PART_KEY,
+	li.SUPPLIER_KEY,
+	o.CUSTOMER_KEY,
+	c.NATION_KEY AS CUSTOMER_NATION_KEY,
+	s.NATION_KEY AS SUPPLIER_NATION_KEY,
+	od.DATE_KEY AS ORDER_DATE_KEY,
+	sd.DATE_KEY AS LINE_ITEM_SHIP_DATE_KEY,
+	cd.DATE_KEY AS LINE_ITEM_COMMIT_DATE_KEY,
+	rd.DATE_KEY as LINE_ITEM_RECEIPT_DATE_KEY,
+	li.ORDER_KEY,
+	o.ORDER_STATUS_TYPE,
+	o.ORDER_TOTAL_PRICE,
+	o.ORDER_PRIORITY_TYPE,
+	o.ORDER_CLERK,
+	o.ORDER_SHIPPRIORITY,
+	ps.PART_AVAILABILITY_QUANTITY,
+	ps.PART_SUPPLY_COST,
+	li.LINE_TIME_NUMBER,
+	li.LINE_ITEM_QUANTITY,
+	li.LINE_ITEM_EXTENDED_PRICE,
+	li.LINE_ITEM_DISCOUNT,
+	li.LINE_ITEM_TAX,
+	li.LINE_ITEM_RETURN_FLAG,
+	li.LINE_ITEM_STATUS_TYPE,
+	li.LINE_ITEM_SHIP_INSTRUCTION_TYPE,
+	li.LINE_ITEM_SHIP_MODE_TYPE
+FROM 
+	standardized.line_items li 
+LEFT JOIN
+	standardized.part_suppliers ps 
+	ON li.PART_KEY = ps.PART_KEY 
+	AND li.SUPPLIER_KEY = ps.SUPPLIER_KEY 
+LEFT JOIN 
+	standardized.orders o 
+	ON o.ORDER_KEY = li.ORDER_KEY 
+LEFT JOIN 
+	standardized.customers c 
+	ON o.CUSTOMER_KEY = c.CUSTOMER_KEY 
+LEFT JOIN 
+	standardized.suppliers s 
+	ON li.SUPPLIER_KEY = s.SUPPLIER_KEY
+LEFT JOIN 
+	presentation.dates od 
+	ON od.`DAY` = EXTRACT(DAY FROM o.ORDER_DATE)
+	AND od.`MONTH` = EXTRACT(MONTH FROM o.ORDER_DATE)
+	AND od.`YEAR` = EXTRACT(YEAR FROM o.ORDER_DATE)
+LEFT JOIN 
+	presentation.dates sd 
+	ON sd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_SHIP_DATE)
+	AND sd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_SHIP_DATE)
+LEFT JOIN 
+	presentation.dates cd 
+	ON cd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_COMMIT_DATE)
+	AND cd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_COMMIT_DATE)
+LEFT JOIN 
+	presentation.dates rd 
+	ON rd.`DAY` = EXTRACT(DAY FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`MONTH` = EXTRACT(MONTH FROM li.LINE_ITEM_RECEIPT_DATE)
+	AND rd.`YEAR` = EXTRACT(YEAR FROM li.LINE_ITEM_RECEIPT_DATE)
+WHERE 
+	li.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+
+LIMIT 0, parameters: None
+[2021-08-08 08:32:42,121] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 184, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 208, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (3978, 'Foreign key creation is not allowed with CREATE TABLE as SELECT and CREATE TABLE with START TRANSACTION statement.')
+[2021-08-08 08:32:42,123] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=presentation_pipeline, task_id=create_presentation_table_fact_order_line_items, execution_date=20210808T070000, start_date=20210808T083241, end_date=20210808T083242
+[2021-08-08 08:32:42,170] {local_task_job.py:149} INFO - Task exited with return code 1
+[2021-08-08 08:52:11,117] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:52:11,126] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:52:11,127] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:52:11,127] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:52:11,128] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:52:11,139] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_fact_order_line_items> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:52:11,148] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_fact_order_line_items', '2021-08-08T07:00:00+00:00', '--job-id', '31', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmphce5cq8w', '--error-file', '/tmp/tmpvoxhnson']
+[2021-08-08 08:52:11,144] {standard_task_runner.py:52} INFO - Started process 421 to run task
+[2021-08-08 08:52:11,149] {standard_task_runner.py:77} INFO - Job 31: Subtask create_presentation_table_fact_order_line_items
+[2021-08-08 08:52:11,187] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_fact_order_line_items 2021-08-08T07:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 08:52:11,228] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_fact_order_line_items
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:52:11,229] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.order_line_items (
+    PART_KEY INT NOT NULL,
+	SUPPLIER_KEY INT NOT NULL,
+	CUSTOMER_KEY INT NOT NULL,
+	CUSTOMER_NATION_KEY INT NOT NULL,
+	SUPPLIER_NATION_KEY INT NOT NULL,
+	ORDER_DATE_KEY INT NOT NULL,
+	LINE_ITEM_SHIP_DATE_KEY INT NOT NULL,
+	LINE_ITEM_COMMIT_DATE_KEY INT NOT NULL,
+	LINE_ITEM_RECEIPT_DATE_KEY INT NOT NULL,
+	ORDER_KEY INT NOT NULL,
+	ORDER_STATUS_TYPE TEXT NOT NULL,
+	ORDER_TOTAL_PRICE INT NOT NULL,
+	ORDER_PRIORITY_TYPE TEXT NOT NULL,
+	ORDER_CLERK TEXT NOT NULL,
+	ORDER_SHIPPRIORITY INT NOT NULL,
+	PART_AVAILABILITY_QUANTITY INT NOT NULL,
+	PART_SUPPLY_COST INT NOT NULL,
+	LINE_TIME_NUMBER INT NOT NULL,
+	LINE_ITEM_QUANTITY INT NOT NULL,
+	LINE_ITEM_EXTENDED_PRICE INT NOT NULL,
+	LINE_ITEM_DISCOUNT INT NOT NULL,
+	LINE_ITEM_TAX INT NOT NULL,
+	LINE_ITEM_RETURN_FLAG TEXT NOT NULL,
+	LINE_ITEM_STATUS_TYPE TEXT NOT NULL,
+	LINE_ITEM_SHIP_INSTRUCTION_TYPE TEXT NOT NULL,
+	LINE_ITEM_SHIP_MODE_TYPE TEXT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_KEY_FK` FOREIGN KEY (PART_KEY) REFERENCES presentation.parts(PART_KEY),
+	CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (SUPPLIER_KEY) REFERENCES presentation.suppliers(SUPPLIER_KEY),
+	CONSTRAINT `CUSTOMER_KEY_FK` FOREIGN KEY (CUSTOMER_KEY) REFERENCES presentation.customers(CUSTOMER_KEY),
+	CONSTRAINT `CUSTOMER_NATION_KEY_FK` FOREIGN KEY (CUSTOMER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `SUPPLIER_NATION_KEY_FK` FOREIGN KEY (SUPPLIER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `ORDER_DATE_KEY_FK` FOREIGN KEY (ORDER_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_SHIP_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_SHIP_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_COMMIT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_COMMIT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_RECEIPT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_RECEIPT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY)
+)
+[2021-08-08 08:52:11,236] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:52:11,245] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.order_line_items (
+    PART_KEY INT NOT NULL,
+	SUPPLIER_KEY INT NOT NULL,
+	CUSTOMER_KEY INT NOT NULL,
+	CUSTOMER_NATION_KEY INT NOT NULL,
+	SUPPLIER_NATION_KEY INT NOT NULL,
+	ORDER_DATE_KEY INT NOT NULL,
+	LINE_ITEM_SHIP_DATE_KEY INT NOT NULL,
+	LINE_ITEM_COMMIT_DATE_KEY INT NOT NULL,
+	LINE_ITEM_RECEIPT_DATE_KEY INT NOT NULL,
+	ORDER_KEY INT NOT NULL,
+	ORDER_STATUS_TYPE TEXT NOT NULL,
+	ORDER_TOTAL_PRICE INT NOT NULL,
+	ORDER_PRIORITY_TYPE TEXT NOT NULL,
+	ORDER_CLERK TEXT NOT NULL,
+	ORDER_SHIPPRIORITY INT NOT NULL,
+	PART_AVAILABILITY_QUANTITY INT NOT NULL,
+	PART_SUPPLY_COST INT NOT NULL,
+	LINE_TIME_NUMBER INT NOT NULL,
+	LINE_ITEM_QUANTITY INT NOT NULL,
+	LINE_ITEM_EXTENDED_PRICE INT NOT NULL,
+	LINE_ITEM_DISCOUNT INT NOT NULL,
+	LINE_ITEM_TAX INT NOT NULL,
+	LINE_ITEM_RETURN_FLAG TEXT NOT NULL,
+	LINE_ITEM_STATUS_TYPE TEXT NOT NULL,
+	LINE_ITEM_SHIP_INSTRUCTION_TYPE TEXT NOT NULL,
+	LINE_ITEM_SHIP_MODE_TYPE TEXT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_KEY_FK` FOREIGN KEY (PART_KEY) REFERENCES presentation.parts(PART_KEY),
+	CONSTRAINT `SUPPLIER_KEY_FK` FOREIGN KEY (SUPPLIER_KEY) REFERENCES presentation.suppliers(SUPPLIER_KEY),
+	CONSTRAINT `CUSTOMER_KEY_FK` FOREIGN KEY (CUSTOMER_KEY) REFERENCES presentation.customers(CUSTOMER_KEY),
+	CONSTRAINT `CUSTOMER_NATION_KEY_FK` FOREIGN KEY (CUSTOMER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `SUPPLIER_NATION_KEY_FK` FOREIGN KEY (SUPPLIER_NATION_KEY) REFERENCES presentation.nations(NATION_KEY),
+	CONSTRAINT `ORDER_DATE_KEY_FK` FOREIGN KEY (ORDER_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_SHIP_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_SHIP_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_COMMIT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_COMMIT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY),
+	CONSTRAINT `LINE_ITEM_RECEIPT_DATE_KEY_FK` FOREIGN KEY (LINE_ITEM_RECEIPT_DATE_KEY) REFERENCES presentation.dates(DATE_KEY)
+), parameters: None
+[2021-08-08 08:52:11,289] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 08:52:11,299] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_fact_order_line_items, execution_date=20210808T070000, start_date=20210808T085211, end_date=20210808T085211
+[2021-08-08 08:52:11,323] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:52:11,363] {local_task_job.py:149} INFO - Task exited with return code 0

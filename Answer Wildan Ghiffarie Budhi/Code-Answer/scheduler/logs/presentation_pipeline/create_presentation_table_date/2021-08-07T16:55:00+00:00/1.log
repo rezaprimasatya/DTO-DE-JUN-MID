@@ -1,0 +1,43 @@
+[2021-08-07 17:02:50,901] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_date 2021-08-07T16:55:00+00:00 [queued]>
+[2021-08-07 17:02:50,934] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_date 2021-08-07T16:55:00+00:00 [queued]>
+[2021-08-07 17:02:50,936] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 17:02:50,937] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 17:02:50,939] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 17:02:50,958] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_date> on 2021-08-07T16:55:00+00:00
+[2021-08-07 17:02:50,974] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_date', '2021-08-07T16:55:00+00:00', '--job-id', '22', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpxk08u0fv', '--error-file', '/tmp/tmp2anz7ivl']
+[2021-08-07 17:02:50,976] {standard_task_runner.py:77} INFO - Job 22: Subtask create_presentation_table_date
+[2021-08-07 17:02:50,966] {standard_task_runner.py:52} INFO - Started process 661 to run task
+[2021-08-07 17:02:51,081] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_date 2021-08-07T16:55:00+00:00 [running]> on host f68214991f84
+[2021-08-07 17:02:51,156] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_date
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T16:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-07T16:55:00+00:00
+[2021-08-07 17:02:51,158] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.DATE (
+    `DATE_KEY` int NOT NULL AUTO_INCREMENT,
+    `DAY` int NOT NULL,
+    `WEEK` int NOT NULL,
+    `MONTH` int NOT NULL,
+    `QUARTER` int NOT NULL,
+    `YEAR` int NOT NULL,
+    `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PK_CUSTOMER` PRIMARY KEY (`DATE_KEY`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+[2021-08-07 17:02:51,177] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 17:02:51,196] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.DATE (
+    `DATE_KEY` int NOT NULL AUTO_INCREMENT,
+    `DAY` int NOT NULL,
+    `WEEK` int NOT NULL,
+    `MONTH` int NOT NULL,
+    `QUARTER` int NOT NULL,
+    `YEAR` int NOT NULL,
+    `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PK_CUSTOMER` PRIMARY KEY (`DATE_KEY`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;, parameters: None
+[2021-08-07 17:02:51,226] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-07 17:02:51,245] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_date, execution_date=20210807T165500, start_date=20210807T170250, end_date=20210807T170251
+[2021-08-07 17:02:51,315] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 17:02:51,369] {local_task_job.py:149} INFO - Task exited with return code 0

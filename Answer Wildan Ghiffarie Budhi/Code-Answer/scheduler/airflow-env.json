@@ -1,0 +1,6 @@
+{
+    "DWH_HOST": "dwh",
+    "DWH_PORT": 3306,
+    "DWH_USER": "root",
+    "DWH_PASSWORD": "!dto123"
+}

@@ -1,0 +1,63 @@
+[2021-08-07 13:45:00,890] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T13:40:00+00:00 [queued]>
+[2021-08-07 13:45:00,905] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T13:40:00+00:00 [queued]>
+[2021-08-07 13:45:00,906] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 13:45:00,907] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 13:45:00,907] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 13:45:00,915] {taskinstance.py:1107} INFO - Executing <Task(PythonOperator): extract_from_git> on 2021-08-07T13:40:00+00:00
+[2021-08-07 13:45:00,920] {standard_task_runner.py:52} INFO - Started process 1352 to run task
+[2021-08-07 13:45:00,923] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'to_datalake_pipeline', 'extract_from_git', '2021-08-07T13:40:00+00:00', '--job-id', '5', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/to_datalake_pipeline.py', '--cfg-path', '/tmp/tmp5jn5bjag', '--error-file', '/tmp/tmpax2b60us']
+[2021-08-07 13:45:00,924] {standard_task_runner.py:77} INFO - Job 5: Subtask extract_from_git
+[2021-08-07 13:45:00,969] {logging_mixin.py:104} INFO - Running <TaskInstance: to_datalake_pipeline.extract_from_git 2021-08-07T13:40:00+00:00 [running]> on host ab70d6dafbc6
+[2021-08-07 13:45:01,018] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=to_datalake_pipeline
+AIRFLOW_CTX_TASK_ID=extract_from_git
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T13:40:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-07T13:40:00+00:00
+[2021-08-07 13:45:01,019] {logging_mixin.py:104} INFO - Downloading data from -> https://raw.githubusercontent.com/rezaprimasatya/DTO-DE-JUN-MID/main/data.zip
+[2021-08-07 13:45:05,965] {local_task_job.py:198} WARNING - State of this instance has been externally set to None. Terminating instance.
+[2021-08-07 13:45:05,967] {process_utils.py:100} INFO - Sending Signals.SIGTERM to GPID 1352
+[2021-08-07 13:45:05,968] {taskinstance.py:1284} ERROR - Received SIGTERM. Terminating subprocesses.
+[2021-08-07 13:45:05,978] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/operators/python.py", line 150, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/operators/python.py", line 161, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/extract/extract.py", line 104, in extract_data_from_git
+    pipeline.run()
+  File "/opt/airflow/dags/extract/extract.py", line 16, in run
+    zipped_data = self.download_data("https://raw.githubusercontent.com/rezaprimasatya/DTO-DE-JUN-MID/main/data.zip")
+  File "/opt/airflow/dags/extract/extract.py", line 28, in download_data
+    for chunk in r.iter_content(chunk_size=chunk_size):
+  File "/home/airflow/.local/lib/python3.6/site-packages/requests/models.py", line 753, in generate
+    for chunk in self.raw.stream(chunk_size, decode_content=True):
+  File "/home/airflow/.local/lib/python3.6/site-packages/urllib3/response.py", line 575, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+  File "/home/airflow/.local/lib/python3.6/site-packages/urllib3/response.py", line 518, in read
+    data = self._fp.read(amt) if not fp_closed else b""
+  File "/usr/local/lib/python3.6/http/client.py", line 463, in read
+    n = self.readinto(b)
+  File "/usr/local/lib/python3.6/http/client.py", line 507, in readinto
+    n = self.fp.readinto(b)
+  File "/usr/local/lib/python3.6/socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/local/lib/python3.6/ssl.py", line 1012, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/local/lib/python3.6/ssl.py", line 874, in read
+    return self._sslobj.read(len, buffer)
+  File "/usr/local/lib/python3.6/ssl.py", line 631, in read
+    v = self._sslobj.read(len, buffer)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1286, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2021-08-07 13:45:05,987] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=to_datalake_pipeline, task_id=extract_from_git, execution_date=20210807T134000, start_date=20210807T134500, end_date=20210807T134505
+[2021-08-07 13:45:06,021] {process_utils.py:66} INFO - Process psutil.Process(pid=1352, status='terminated', exitcode=1, started='13:45:00') (1352) terminated with exit code 1

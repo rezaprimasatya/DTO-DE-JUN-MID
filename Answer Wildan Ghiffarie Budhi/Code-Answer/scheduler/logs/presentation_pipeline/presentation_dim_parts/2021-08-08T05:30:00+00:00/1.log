@@ -1,0 +1,49 @@
+[2021-08-08 05:37:04,069] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_parts 2021-08-08T05:30:00+00:00 [queued]>
+[2021-08-08 05:37:04,090] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_parts 2021-08-08T05:30:00+00:00 [queued]>
+[2021-08-08 05:37:04,091] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:37:04,092] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 05:37:04,092] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:37:04,105] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_parts> on 2021-08-08T05:30:00+00:00
+[2021-08-08 05:37:04,109] {standard_task_runner.py:52} INFO - Started process 1438 to run task
+[2021-08-08 05:37:04,114] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_parts', '2021-08-08T05:30:00+00:00', '--job-id', '114', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmptivc1enb', '--error-file', '/tmp/tmpz1xa3g8r']
+[2021-08-08 05:37:04,116] {standard_task_runner.py:77} INFO - Job 114: Subtask presentation_dim_parts
+[2021-08-08 05:37:04,165] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_parts 2021-08-08T05:30:00+00:00 [running]> on host b48e43d568d5
+[2021-08-08 05:37:04,231] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:30:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:30:00+00:00
+[2021-08-08 05:37:04,233] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.parts
+SELECT 
+	DISTINCT 
+	p.PART_KEY,
+	p.PART_NAME,
+	p.PART_SIZE_NUMBER,
+	p.PART_CONTAINER_TYPE,
+	p.PART_RETAIL_PRICE,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.parts p
+WHERE 
+	p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+[2021-08-08 05:37:04,244] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:37:04,259] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.parts
+SELECT 
+	DISTINCT 
+	p.PART_KEY,
+	p.PART_NAME,
+	p.PART_SIZE_NUMBER,
+	p.PART_CONTAINER_TYPE,
+	p.PART_RETAIL_PRICE,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.parts p
+WHERE 
+	p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE), parameters: None
+[2021-08-08 05:37:04,314] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 05:37:04,326] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_parts, execution_date=20210808T053000, start_date=20210808T053704, end_date=20210808T053704
+[2021-08-08 05:37:04,350] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:37:04,372] {local_task_job.py:149} INFO - Task exited with return code 0

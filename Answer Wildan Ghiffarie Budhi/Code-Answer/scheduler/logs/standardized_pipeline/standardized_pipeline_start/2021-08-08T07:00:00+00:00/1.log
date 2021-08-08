@@ -1,0 +1,96 @@
+[2021-08-08 08:02:25,983] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:02:25,997] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:02:25,998] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:02:25,998] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:02:25,998] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:02:26,005] {taskinstance.py:1107} INFO - Executing <Task(ExternalTaskSensor): standardized_pipeline_start> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:02:26,013] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_pipeline_start', '2021-08-08T07:00:00+00:00', '--job-id', '2', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmplodvs26w', '--error-file', '/tmp/tmpian8epsj']
+[2021-08-08 08:02:26,009] {standard_task_runner.py:52} INFO - Started process 842 to run task
+[2021-08-08 08:02:26,014] {standard_task_runner.py:77} INFO - Job 2: Subtask standardized_pipeline_start
+[2021-08-08 08:02:26,054] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [running]> on host e453c42896df
+[2021-08-08 08:02:26,102] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_pipeline_start
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:02:26,103] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:03:26,124] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:03:26,132] {base.py:248} INFO - Success criteria met. Exiting.
+[2021-08-08 08:03:26,139] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_pipeline_start, execution_date=20210808T070000, start_date=20210808T080225, end_date=20210808T080326
+[2021-08-08 08:03:26,175] {taskinstance.py:1265} INFO - 8 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:03:26,185] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:18:19,357] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:18:19,371] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:18:19,372] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:18:19,372] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:18:19,373] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:18:19,379] {taskinstance.py:1107} INFO - Executing <Task(ExternalTaskSensor): standardized_pipeline_start> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:18:19,387] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_pipeline_start', '2021-08-08T07:00:00+00:00', '--job-id', '2', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp0ppask7p', '--error-file', '/tmp/tmpuj06zd8l']
+[2021-08-08 08:18:19,383] {standard_task_runner.py:52} INFO - Started process 172 to run task
+[2021-08-08 08:18:19,388] {standard_task_runner.py:77} INFO - Job 2: Subtask standardized_pipeline_start
+[2021-08-08 08:18:19,427] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [running]> on host 99d60a4279b8
+[2021-08-08 08:18:19,469] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_pipeline_start
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:18:19,470] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:19:19,465] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:19:19,474] {base.py:248} INFO - Success criteria met. Exiting.
+[2021-08-08 08:19:19,482] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_pipeline_start, execution_date=20210808T070000, start_date=20210808T081819, end_date=20210808T081919
+[2021-08-08 08:19:19,530] {taskinstance.py:1265} INFO - 8 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:19:19,548] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:30:37,388] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:30:37,402] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:30:37,403] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:30:37,404] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:30:37,404] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:30:37,411] {taskinstance.py:1107} INFO - Executing <Task(ExternalTaskSensor): standardized_pipeline_start> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:30:37,415] {standard_task_runner.py:52} INFO - Started process 136 to run task
+[2021-08-08 08:30:37,419] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_pipeline_start', '2021-08-08T07:00:00+00:00', '--job-id', '2', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpryejirjo', '--error-file', '/tmp/tmpajc1igyr']
+[2021-08-08 08:30:37,420] {standard_task_runner.py:77} INFO - Job 2: Subtask standardized_pipeline_start
+[2021-08-08 08:30:37,463] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [running]> on host 5e970160fe16
+[2021-08-08 08:30:37,511] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_pipeline_start
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:30:37,512] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:31:37,504] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:31:37,512] {base.py:248} INFO - Success criteria met. Exiting.
+[2021-08-08 08:31:37,520] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_pipeline_start, execution_date=20210808T070000, start_date=20210808T083037, end_date=20210808T083137
+[2021-08-08 08:31:37,559] {taskinstance.py:1265} INFO - 8 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:31:37,572] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:50:07,333] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:50:07,346] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:50:07,347] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:50:07,348] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 08:50:07,349] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:50:07,366] {taskinstance.py:1107} INFO - Executing <Task(ExternalTaskSensor): standardized_pipeline_start> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:50:07,373] {standard_task_runner.py:52} INFO - Started process 175 to run task
+[2021-08-08 08:50:07,379] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_pipeline_start', '2021-08-08T07:00:00+00:00', '--job-id', '2', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpdq_2z2j2', '--error-file', '/tmp/tmp8z35fc8h']
+[2021-08-08 08:50:07,381] {standard_task_runner.py:77} INFO - Job 2: Subtask standardized_pipeline_start
+[2021-08-08 08:50:07,441] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T07:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 08:50:07,489] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_pipeline_start
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:50:07,490] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:51:07,516] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T07:00:00+00:00 ... 
+[2021-08-08 08:51:07,527] {base.py:248} INFO - Success criteria met. Exiting.
+[2021-08-08 08:51:07,536] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_pipeline_start, execution_date=20210808T070000, start_date=20210808T085007, end_date=20210808T085107
+[2021-08-08 08:51:07,577] {taskinstance.py:1265} INFO - 8 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:51:07,622] {local_task_job.py:149} INFO - Task exited with return code 0

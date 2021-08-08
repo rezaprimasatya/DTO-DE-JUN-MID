@@ -1,0 +1,76 @@
+[2021-08-08 05:02:06,039] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_parts 2021-08-08T04:55:00+00:00 [queued]>
+[2021-08-08 05:02:06,062] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_parts 2021-08-08T04:55:00+00:00 [queued]>
+[2021-08-08 05:02:06,064] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:02:06,065] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 05:02:06,066] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:02:06,091] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_parts> on 2021-08-08T04:55:00+00:00
+[2021-08-08 05:02:06,099] {standard_task_runner.py:52} INFO - Started process 6454 to run task
+[2021-08-08 05:02:06,108] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_parts', '2021-08-08T04:55:00+00:00', '--job-id', '82', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpmk1si7cv', '--error-file', '/tmp/tmprrhj55ek']
+[2021-08-08 05:02:06,110] {standard_task_runner.py:77} INFO - Job 82: Subtask create_presentation_table_dim_parts
+[2021-08-08 05:02:06,200] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_parts 2021-08-08T04:55:00+00:00 [running]> on host 75feb3cfb2a6
+[2021-08-08 05:02:06,301] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T04:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T04:55:00+00:00
+[2021-08-08 05:02:06,303] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.parts (
+    PART_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    CONSTRAINT `PART_PK` PRIMARY KEY (PART_KEY)
+) AS
+
+SELECT 
+	DISTINCT 
+	p.PART_KEY,
+	p.PART_NAME,
+	p.PART_SIZE_NUMBER,
+	p.PART_CONTAINER_TYPE,
+	p.PART_RETAIL_PRICE 
+FROM 
+	standardized.parts p
+WHERE 
+	p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+[2021-08-08 05:02:06,325] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:02:06,344] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.parts (
+    PART_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    CONSTRAINT `PART_PK` PRIMARY KEY (PART_KEY)
+) AS
+
+SELECT 
+	DISTINCT 
+	p.PART_KEY,
+	p.PART_NAME,
+	p.PART_SIZE_NUMBER,
+	p.PART_CONTAINER_TYPE,
+	p.PART_RETAIL_PRICE 
+FROM 
+	standardized.parts p
+WHERE 
+	p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE), parameters: None
+[2021-08-08 05:02:06,346] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 184, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 208, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMARY KEY (PART_KEY)\n) AS\n\nSELECT \n\tDISTINCT \n\tp.PART_KEY,\n\tp.PART_NAME,\n\tp.PA' at line 4")
+[2021-08-08 05:02:06,352] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_parts, execution_date=20210808T045500, start_date=20210808T050206, end_date=20210808T050206
+[2021-08-08 05:02:06,446] {local_task_job.py:149} INFO - Task exited with return code 1

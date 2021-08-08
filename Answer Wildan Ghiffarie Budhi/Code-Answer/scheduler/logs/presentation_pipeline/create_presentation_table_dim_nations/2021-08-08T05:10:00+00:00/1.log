@@ -1,0 +1,63 @@
+[2021-08-08 05:17:01,375] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_nations 2021-08-08T05:10:00+00:00 [queued]>
+[2021-08-08 05:17:01,396] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_nations 2021-08-08T05:10:00+00:00 [queued]>
+[2021-08-08 05:17:01,397] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:17:01,397] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 05:17:01,398] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:17:01,411] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_nations> on 2021-08-08T05:10:00+00:00
+[2021-08-08 05:17:01,415] {standard_task_runner.py:52} INFO - Started process 908 to run task
+[2021-08-08 05:17:01,423] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_nations', '2021-08-08T05:10:00+00:00', '--job-id', '84', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmp3jrygfy7', '--error-file', '/tmp/tmpcrfzbefb']
+[2021-08-08 05:17:01,424] {standard_task_runner.py:77} INFO - Job 84: Subtask create_presentation_table_dim_nations
+[2021-08-08 05:17:01,474] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_nations 2021-08-08T05:10:00+00:00 [running]> on host dbfb9e13da58
+[2021-08-08 05:17:01,534] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:10:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:10:00+00:00
+[2021-08-08 05:17:01,536] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.nations (
+    NATION_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `NATIONS_PK` PRIMARY KEY (NATION_KEY)
+) AS
+
+SELECT 
+	DISTINCT 
+	n.NATION_KEY,
+	n.NATION_NAME,
+	r.REGION_KEY,
+	r.REGION_NAME,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.nations n
+LEFT JOIN 
+	standardized.regions r
+	ON n.REGION_KEY = r.REGION_KEY 
+WHERE 
+	n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+[2021-08-08 05:17:01,546] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:17:01,557] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.nations (
+    NATION_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `NATIONS_PK` PRIMARY KEY (NATION_KEY)
+) AS
+
+SELECT 
+	DISTINCT 
+	n.NATION_KEY,
+	n.NATION_NAME,
+	r.REGION_KEY,
+	r.REGION_NAME,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.nations n
+LEFT JOIN 
+	standardized.regions r
+	ON n.REGION_KEY = r.REGION_KEY 
+WHERE 
+	n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE), parameters: None
+[2021-08-08 05:17:01,558] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 05:17:01,571] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_nations, execution_date=20210808T051000, start_date=20210808T051701, end_date=20210808T051701
+[2021-08-08 05:17:01,610] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:17:01,637] {local_task_job.py:149} INFO - Task exited with return code 0

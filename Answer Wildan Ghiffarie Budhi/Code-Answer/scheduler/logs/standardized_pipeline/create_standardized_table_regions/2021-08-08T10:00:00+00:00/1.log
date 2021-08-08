@@ -1,0 +1,183 @@
+[2021-08-08 11:01:02,396] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:02,415] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:02,418] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:02,419] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:01:02,420] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:02,444] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_regions> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:02,460] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_regions', '2021-08-08T10:00:00+00:00', '--job-id', '104', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpgw5xgtvd', '--error-file', '/tmp/tmp19fl140y']
+[2021-08-08 11:01:02,462] {standard_task_runner.py:77} INFO - Job 104: Subtask create_standardized_table_regions
+[2021-08-08 11:01:02,454] {standard_task_runner.py:52} INFO - Started process 11014 to run task
+[2021-08-08 11:01:02,576] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 11:01:02,743] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:02,744] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.regions (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0
+[2021-08-08 11:01:02,769] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:01:02,791] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.regions (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0, parameters: None
+[2021-08-08 11:01:02,794] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 11:01:02,838] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_regions, execution_date=20210808T100000, start_date=20210808T110102, end_date=20210808T110102
+[2021-08-08 11:01:02,910] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:01:02,930] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:04:33,871] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:33,903] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:33,904] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:33,905] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:04:33,907] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:33,923] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_regions> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:33,934] {standard_task_runner.py:52} INFO - Started process 259 to run task
+[2021-08-08 11:04:33,949] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_regions', '2021-08-08T10:00:00+00:00', '--job-id', '9', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpol4c54ic', '--error-file', '/tmp/tmpatdm8hvc']
+[2021-08-08 11:04:33,950] {standard_task_runner.py:77} INFO - Job 9: Subtask create_standardized_table_regions
+[2021-08-08 11:04:34,032] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [running]> on host ce886ce1d63a
+[2021-08-08 11:04:34,114] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:34,116] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.regions (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0
+[2021-08-08 11:04:34,131] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:04:34,149] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.regions (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0, parameters: None
+[2021-08-08 11:04:34,181] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 11:04:34,197] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_regions, execution_date=20210808T100000, start_date=20210808T110433, end_date=20210808T110434
+[2021-08-08 11:04:34,252] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:04:34,290] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:55:53,323] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:53,340] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:53,340] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:53,341] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:55:53,342] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:53,366] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_regions> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:53,380] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_regions', '2021-08-08T10:00:00+00:00', '--job-id', '5', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpe2myka2i', '--error-file', '/tmp/tmpk2d_u3cv']
+[2021-08-08 11:55:53,374] {standard_task_runner.py:52} INFO - Started process 310 to run task
+[2021-08-08 11:55:53,384] {standard_task_runner.py:77} INFO - Job 5: Subtask create_standardized_table_regions
+[2021-08-08 11:55:53,472] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_regions 2021-08-08T10:00:00+00:00 [running]> on host 7f57f947ae95
+[2021-08-08 11:55:53,622] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_regions
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:53,627] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.regions (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0
+[2021-08-08 11:55:53,644] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:55:53,664] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.regions (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH timeframed_data AS (
+	SELECT
+		DISTINCT 
+		CAST(R_REGIONKEY AS SIGNED) AS REGION_KEY,
+		R_NAME AS REGION_NAME,
+		R_COMMENT AS REGION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.REGION r
+	WHERE 
+		r.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+LIMIT 0, parameters: None
+[2021-08-08 11:55:53,690] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 11:55:53,709] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_regions, execution_date=20210808T100000, start_date=20210808T115553, end_date=20210808T115553
+[2021-08-08 11:55:53,745] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:55:53,775] {local_task_job.py:149} INFO - Task exited with return code 0

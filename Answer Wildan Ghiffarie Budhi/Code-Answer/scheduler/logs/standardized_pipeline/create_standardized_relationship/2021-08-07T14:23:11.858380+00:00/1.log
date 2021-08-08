@@ -1,0 +1,69 @@
+[2021-08-07 14:23:14,513] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_relationship 2021-08-07T14:23:11.858380+00:00 [queued]>
+[2021-08-07 14:23:14,523] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_relationship 2021-08-07T14:23:11.858380+00:00 [queued]>
+[2021-08-07 14:23:14,523] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:23:14,524] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 14:23:14,525] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:23:14,537] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_relationship> on 2021-08-07T14:23:11.858380+00:00
+[2021-08-07 14:23:14,546] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_relationship', '2021-08-07T14:23:11.858380+00:00', '--job-id', '79', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpwofac2kz', '--error-file', '/tmp/tmpmtxpu50l']
+[2021-08-07 14:23:14,542] {standard_task_runner.py:52} INFO - Started process 4861 to run task
+[2021-08-07 14:23:14,547] {standard_task_runner.py:77} INFO - Job 79: Subtask create_standardized_relationship
+[2021-08-07 14:23:14,591] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_relationship 2021-08-07T14:23:11.858380+00:00 [running]> on host ab70d6dafbc6
+[2021-08-07 14:23:14,637] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_relationship
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T14:23:11.858380+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-07T14:23:11.858380+00:00
+[2021-08-07 14:23:14,638] {mysql.py:70} INFO - Executing: ALTER TABLE standardized.REGION ADD PRIMARY KEY (`REGION_KEY`);
+
+ALTER TABLE standardized.NATION ADD PRIMARY KEY (`NATION_KEY`);
+ALTER TABLE standardized.NATION ADD CONSTRAINT `NATION_ibfk_1` FOREIGN KEY (`REGION_KEY`) REFERENCES standardized.REGION (`REGION_KEY`);
+
+ALTER TABLE standardized.PART ADD PRIMARY KEY (`PART_KEY`);
+
+ALTER TABLE standardized.SUPPLIER ADD PRIMARY KEY (`SUPPLIER_KEY`);
+ALTER TABLE standardized.SUPPLIER ADD CONSTRAINT `SUPPLIER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.PARTSUPP ADD PRIMARY KEY (`PART_KEY`,`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_1` FOREIGN KEY (`SUPPLIER_KEY`) REFERENCES standardized.SUPPLIER (`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_2` FOREIGN KEY (`PART_KEY`) REFERENCES standardized.PART (`PART_KEY`);
+
+ALTER TABLE standardized.CUSTOMER ADD PRIMARY KEY (`CUSTOMER_KEY`);
+ALTER TABLE standardized.CUSTOMER ADD CONSTRAINT `CUSTOMER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.ORDERS ADD PRIMARY KEY (`ORDER_KEY`);
+ALTER TABLE standardized.ORDERS ADD CONSTRAINT `ORDERS_ibfk_1` FOREIGN KEY (`CUSTOMER_KEY`) REFERENCES standardized.CUSTOMER (`CUSTOMER_KEY`);
+
+ALTER TABLE standardized.LINEITEM ADD PRIMARY KEY (`ORDER_KEY`,`LINEITEM_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_1` FOREIGN KEY (`ORDER_KEY`) REFERENCES standardized.ORDERS (`ORDER_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_2` FOREIGN KEY (`PART_KEY`, `SUPPLIER_KEY`) REFERENCES standardized.PARTSUPP (`PART_KEY`, `SUPPLIER_KEY`);
+[2021-08-07 14:23:14,647] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 14:23:14,657] {dbapi.py:204} INFO - Running statement: ALTER TABLE standardized.REGION ADD PRIMARY KEY (`REGION_KEY`);
+
+ALTER TABLE standardized.NATION ADD PRIMARY KEY (`NATION_KEY`);
+ALTER TABLE standardized.NATION ADD CONSTRAINT `NATION_ibfk_1` FOREIGN KEY (`REGION_KEY`) REFERENCES standardized.REGION (`REGION_KEY`);
+
+ALTER TABLE standardized.PART ADD PRIMARY KEY (`PART_KEY`);
+
+ALTER TABLE standardized.SUPPLIER ADD PRIMARY KEY (`SUPPLIER_KEY`);
+ALTER TABLE standardized.SUPPLIER ADD CONSTRAINT `SUPPLIER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.PARTSUPP ADD PRIMARY KEY (`PART_KEY`,`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_1` FOREIGN KEY (`SUPPLIER_KEY`) REFERENCES standardized.SUPPLIER (`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_2` FOREIGN KEY (`PART_KEY`) REFERENCES standardized.PART (`PART_KEY`);
+
+ALTER TABLE standardized.CUSTOMER ADD PRIMARY KEY (`CUSTOMER_KEY`);
+ALTER TABLE standardized.CUSTOMER ADD CONSTRAINT `CUSTOMER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.ORDERS ADD PRIMARY KEY (`ORDER_KEY`);
+ALTER TABLE standardized.ORDERS ADD CONSTRAINT `ORDERS_ibfk_1` FOREIGN KEY (`CUSTOMER_KEY`) REFERENCES standardized.CUSTOMER (`CUSTOMER_KEY`);
+
+ALTER TABLE standardized.LINEITEM ADD PRIMARY KEY (`ORDER_KEY`,`LINEITEM_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_1` FOREIGN KEY (`ORDER_KEY`) REFERENCES standardized.ORDERS (`ORDER_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_2` FOREIGN KEY (`PART_KEY`, `SUPPLIER_KEY`) REFERENCES standardized.PARTSUPP (`PART_KEY`, `SUPPLIER_KEY`);, parameters: None
+[2021-08-07 14:23:14,691] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-07 14:23:15,308] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_relationship, execution_date=20210807T142311, start_date=20210807T142314, end_date=20210807T142315
+[2021-08-07 14:23:15,331] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 14:23:15,366] {local_task_job.py:149} INFO - Task exited with return code 0

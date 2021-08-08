@@ -1,0 +1,88 @@
+[2021-08-07 14:25:02,272] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_relationship 2021-08-07T14:20:00+00:00 [queued]>
+[2021-08-07 14:25:02,284] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_relationship 2021-08-07T14:20:00+00:00 [queued]>
+[2021-08-07 14:25:02,285] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:25:02,286] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 14:25:02,287] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:25:02,301] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_relationship> on 2021-08-07T14:20:00+00:00
+[2021-08-07 14:25:02,306] {standard_task_runner.py:52} INFO - Started process 5058 to run task
+[2021-08-07 14:25:02,311] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_relationship', '2021-08-07T14:20:00+00:00', '--job-id', '98', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpscqo1_jn', '--error-file', '/tmp/tmp408b_u7p']
+[2021-08-07 14:25:02,313] {standard_task_runner.py:77} INFO - Job 98: Subtask create_standardized_relationship
+[2021-08-07 14:25:02,367] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_relationship 2021-08-07T14:20:00+00:00 [running]> on host ab70d6dafbc6
+[2021-08-07 14:25:02,422] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_relationship
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T14:20:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-07T14:20:00+00:00
+[2021-08-07 14:25:02,423] {mysql.py:70} INFO - Executing: ALTER TABLE standardized.REGION ADD PRIMARY KEY (`REGION_KEY`);
+
+ALTER TABLE standardized.NATION ADD PRIMARY KEY (`NATION_KEY`);
+ALTER TABLE standardized.NATION ADD CONSTRAINT `NATION_ibfk_1` FOREIGN KEY (`REGION_KEY`) REFERENCES standardized.REGION (`REGION_KEY`);
+
+ALTER TABLE standardized.PART ADD PRIMARY KEY (`PART_KEY`);
+
+ALTER TABLE standardized.SUPPLIER ADD PRIMARY KEY (`SUPPLIER_KEY`);
+ALTER TABLE standardized.SUPPLIER ADD CONSTRAINT `SUPPLIER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.PARTSUPP ADD PRIMARY KEY (`PART_KEY`,`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_1` FOREIGN KEY (`SUPPLIER_KEY`) REFERENCES standardized.SUPPLIER (`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_2` FOREIGN KEY (`PART_KEY`) REFERENCES standardized.PART (`PART_KEY`);
+
+ALTER TABLE standardized.CUSTOMER ADD PRIMARY KEY (`CUSTOMER_KEY`);
+ALTER TABLE standardized.CUSTOMER ADD CONSTRAINT `CUSTOMER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.ORDERS ADD PRIMARY KEY (`ORDER_KEY`);
+ALTER TABLE standardized.ORDERS ADD CONSTRAINT `ORDERS_ibfk_1` FOREIGN KEY (`CUSTOMER_KEY`) REFERENCES standardized.CUSTOMER (`CUSTOMER_KEY`);
+
+ALTER TABLE standardized.LINEITEM ADD PRIMARY KEY (`ORDER_KEY`,`LINEITEM_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_1` FOREIGN KEY (`ORDER_KEY`) REFERENCES standardized.ORDERS (`ORDER_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_2` FOREIGN KEY (`PART_KEY`, `SUPPLIER_KEY`) REFERENCES standardized.PARTSUPP (`PART_KEY`, `SUPPLIER_KEY`);
+[2021-08-07 14:25:02,434] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 14:25:02,445] {dbapi.py:204} INFO - Running statement: ALTER TABLE standardized.REGION ADD PRIMARY KEY (`REGION_KEY`);
+
+ALTER TABLE standardized.NATION ADD PRIMARY KEY (`NATION_KEY`);
+ALTER TABLE standardized.NATION ADD CONSTRAINT `NATION_ibfk_1` FOREIGN KEY (`REGION_KEY`) REFERENCES standardized.REGION (`REGION_KEY`);
+
+ALTER TABLE standardized.PART ADD PRIMARY KEY (`PART_KEY`);
+
+ALTER TABLE standardized.SUPPLIER ADD PRIMARY KEY (`SUPPLIER_KEY`);
+ALTER TABLE standardized.SUPPLIER ADD CONSTRAINT `SUPPLIER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.PARTSUPP ADD PRIMARY KEY (`PART_KEY`,`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_1` FOREIGN KEY (`SUPPLIER_KEY`) REFERENCES standardized.SUPPLIER (`SUPPLIER_KEY`);
+ALTER TABLE standardized.PARTSUPP ADD CONSTRAINT `PARTSUPP_ibfk_2` FOREIGN KEY (`PART_KEY`) REFERENCES standardized.PART (`PART_KEY`);
+
+ALTER TABLE standardized.CUSTOMER ADD PRIMARY KEY (`CUSTOMER_KEY`);
+ALTER TABLE standardized.CUSTOMER ADD CONSTRAINT `CUSTOMER_ibfk_1` FOREIGN KEY (`NATION_KEY`) REFERENCES standardized.NATION (`NATION_KEY`);
+
+ALTER TABLE standardized.ORDERS ADD PRIMARY KEY (`ORDER_KEY`);
+ALTER TABLE standardized.ORDERS ADD CONSTRAINT `ORDERS_ibfk_1` FOREIGN KEY (`CUSTOMER_KEY`) REFERENCES standardized.CUSTOMER (`CUSTOMER_KEY`);
+
+ALTER TABLE standardized.LINEITEM ADD PRIMARY KEY (`ORDER_KEY`,`LINEITEM_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_1` FOREIGN KEY (`ORDER_KEY`) REFERENCES standardized.ORDERS (`ORDER_KEY`);
+ALTER TABLE standardized.LINEITEM ADD CONSTRAINT `LINEITEM_ibfk_2` FOREIGN KEY (`PART_KEY`, `SUPPLIER_KEY`) REFERENCES standardized.PARTSUPP (`PART_KEY`, `SUPPLIER_KEY`);, parameters: None
+[2021-08-07 14:25:02,447] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 184, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 208, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/airflow/.local/lib/python3.6/site-packages/MySQLdb/connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1068, 'Multiple primary key defined')
+[2021-08-07 14:25:02,450] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=standardized_pipeline, task_id=create_standardized_relationship, execution_date=20210807T142000, start_date=20210807T142502, end_date=20210807T142502
+[2021-08-07 14:25:02,488] {local_task_job.py:149} INFO - Task exited with return code 1

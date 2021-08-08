@@ -1,0 +1,163 @@
+[2021-08-07 17:02:52,165] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_date 2021-08-07T16:55:00+00:00 [queued]>
+[2021-08-07 17:02:52,208] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_date 2021-08-07T16:55:00+00:00 [queued]>
+[2021-08-07 17:02:52,209] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 17:02:52,211] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 17:02:52,212] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 17:02:52,223] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_date> on 2021-08-07T16:55:00+00:00
+[2021-08-07 17:02:52,229] {standard_task_runner.py:52} INFO - Started process 673 to run task
+[2021-08-07 17:02:52,236] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_date', '2021-08-07T16:55:00+00:00', '--job-id', '30', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpp7mw5cbh', '--error-file', '/tmp/tmpsxxp4rqg']
+[2021-08-07 17:02:52,237] {standard_task_runner.py:77} INFO - Job 30: Subtask presentation_date
+[2021-08-07 17:02:52,345] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_date 2021-08-07T16:55:00+00:00 [running]> on host f68214991f84
+[2021-08-07 17:02:52,456] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_date
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T16:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-07T16:55:00+00:00
+[2021-08-07 17:02:52,459] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.DATE (
+	`DAY`,
+    `WEEK`,
+    `MONTH`,
+    `QUARTER`,
+    `YEAR`
+) 
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_ORDERDATE as date
+	FROM 
+		standardized.ORDERS
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		ORDER_ORDERDATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINEITEM_SHIPDATE as date
+	FROM
+		standardized.LINEITEM
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINEITEM_SHIPDATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINEITEM_COMMITDATE as date
+	FROM
+		standardized.LINEITEM
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINEITEM_COMMITDATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINEITEM_RECEIPTDATE as date
+	FROM
+		standardized.LINEITEM
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINEITEM_RECEIPTDATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR
+FROM 
+	uniondate
+[2021-08-07 17:02:52,478] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 17:02:52,493] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.DATE (
+	`DAY`,
+    `WEEK`,
+    `MONTH`,
+    `QUARTER`,
+    `YEAR`
+) 
+
+WITH order_dates AS (
+	SELECT 
+		ORDER_ORDERDATE as date
+	FROM 
+		standardized.ORDERS
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		ORDER_ORDERDATE 
+),
+
+shipdate AS (
+	SELECT 
+		LINEITEM_SHIPDATE as date
+	FROM
+		standardized.LINEITEM
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINEITEM_SHIPDATE 
+),
+
+commitdate AS (
+	SELECT 
+		LINEITEM_COMMITDATE as date
+	FROM
+		standardized.LINEITEM
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINEITEM_COMMITDATE 
+),
+
+receiptdate AS (
+	SELECT 
+		LINEITEM_RECEIPTDATE as date
+	FROM
+		standardized.LINEITEM
+	WHERE 
+		INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+	GROUP BY 
+		LINEITEM_RECEIPTDATE 
+),
+
+uniondate AS (
+	SELECT * FROM order_dates
+	UNION
+	SELECT * FROM shipdate
+	UNION
+	SELECT * FROM commitdate
+	UNION
+	SELECT * FROM receiptdate
+)
+
+SELECT
+	EXTRACT(DAY FROM `date`) AS DAY,
+	EXTRACT(WEEK FROM `date`) AS WEEK,
+	EXTRACT(MONTH FROM `date`) AS MONTH,
+	EXTRACT(QUARTER FROM `date`) AS QUARTER,
+	EXTRACT(YEAR FROM `date`) AS YEAR
+FROM 
+	uniondate, parameters: None
+[2021-08-07 17:02:52,829] {dbapi.py:212} INFO - Rows affected: 2544
+[2021-08-07 17:02:52,850] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_date, execution_date=20210807T165500, start_date=20210807T170252, end_date=20210807T170252
+[2021-08-07 17:02:52,875] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 17:02:52,894] {local_task_job.py:149} INFO - Task exited with return code 0

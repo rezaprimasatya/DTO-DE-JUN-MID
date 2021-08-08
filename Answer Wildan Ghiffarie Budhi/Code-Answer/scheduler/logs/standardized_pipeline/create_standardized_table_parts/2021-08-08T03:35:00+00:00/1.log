@@ -1,0 +1,72 @@
+[2021-08-08 03:44:02,959] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_parts 2021-08-08T03:35:00+00:00 [queued]>
+[2021-08-08 03:44:02,998] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_parts 2021-08-08T03:35:00+00:00 [queued]>
+[2021-08-08 03:44:03,000] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 03:44:03,001] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 03:44:03,003] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 03:44:03,062] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_parts> on 2021-08-08T03:35:00+00:00
+[2021-08-08 03:44:03,073] {standard_task_runner.py:52} INFO - Started process 421 to run task
+[2021-08-08 03:44:03,095] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_parts', '2021-08-08T03:35:00+00:00', '--job-id', '5', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpguh8nbmu', '--error-file', '/tmp/tmppztxkopb']
+[2021-08-08 03:44:03,098] {standard_task_runner.py:77} INFO - Job 5: Subtask create_standardized_table_parts
+[2021-08-08 03:44:03,301] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_parts 2021-08-08T03:35:00+00:00 [running]> on host 75feb3cfb2a6
+[2021-08-08 03:44:03,499] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T03:35:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T03:35:00+00:00
+[2021-08-08 03:44:03,502] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.parts (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 03:44:03,581] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 03:44:03,658] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.parts (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 03:44:03,889] {dbapi.py:212} INFO - Rows affected: 2000
+[2021-08-08 03:44:03,948] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_parts, execution_date=20210808T033500, start_date=20210808T034402, end_date=20210808T034403
+[2021-08-08 03:44:04,112] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 03:44:04,188] {local_task_job.py:149} INFO - Task exited with return code 0

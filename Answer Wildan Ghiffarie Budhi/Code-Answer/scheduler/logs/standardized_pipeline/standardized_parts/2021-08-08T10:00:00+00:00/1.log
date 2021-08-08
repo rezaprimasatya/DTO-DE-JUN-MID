@@ -1,0 +1,213 @@
+[2021-08-08 11:01:04,106] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:04,125] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:04,126] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:04,127] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:01:04,128] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:04,156] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_parts> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:04,162] {standard_task_runner.py:52} INFO - Started process 11030 to run task
+[2021-08-08 11:01:04,175] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_parts', '2021-08-08T10:00:00+00:00', '--job-id', '112', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpia4ymutl', '--error-file', '/tmp/tmpw8hs2pah']
+[2021-08-08 11:01:04,178] {standard_task_runner.py:77} INFO - Job 112: Subtask standardized_parts
+[2021-08-08 11:01:04,296] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 11:01:04,397] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:04,398] {mysql.py:70} INFO - Executing: INSERT INTO standardized.parts
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 11:01:04,421] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:01:04,449] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.parts
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 11:01:04,540] {dbapi.py:212} INFO - Rows affected: 2000
+[2021-08-08 11:01:04,578] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_parts, execution_date=20210808T100000, start_date=20210808T110104, end_date=20210808T110104
+[2021-08-08 11:01:04,643] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:01:04,680] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:04:35,509] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:35,559] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:35,561] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:35,562] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:04:35,563] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:35,583] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_parts> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:35,594] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_parts', '2021-08-08T10:00:00+00:00', '--job-id', '17', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp18mw4ljc', '--error-file', '/tmp/tmp084iovm5']
+[2021-08-08 11:04:35,596] {standard_task_runner.py:77} INFO - Job 17: Subtask standardized_parts
+[2021-08-08 11:04:35,589] {standard_task_runner.py:52} INFO - Started process 287 to run task
+[2021-08-08 11:04:35,712] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [running]> on host ce886ce1d63a
+[2021-08-08 11:04:35,790] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:35,792] {mysql.py:70} INFO - Executing: INSERT INTO standardized.parts
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 11:04:35,817] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:04:35,832] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.parts
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 11:04:35,926] {dbapi.py:212} INFO - Rows affected: 2000
+[2021-08-08 11:04:35,944] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_parts, execution_date=20210808T100000, start_date=20210808T110435, end_date=20210808T110435
+[2021-08-08 11:04:36,002] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:04:36,024] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:55:55,048] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:55,093] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:55,094] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:55,096] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:55:55,097] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:55,127] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_parts> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:55,135] {standard_task_runner.py:52} INFO - Started process 332 to run task
+[2021-08-08 11:55:55,149] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_parts', '2021-08-08T10:00:00+00:00', '--job-id', '19', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpnh95zos0', '--error-file', '/tmp/tmpv42jjnxs']
+[2021-08-08 11:55:55,151] {standard_task_runner.py:77} INFO - Job 19: Subtask standardized_parts
+[2021-08-08 11:55:55,229] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_parts 2021-08-08T10:00:00+00:00 [running]> on host 7f57f947ae95
+[2021-08-08 11:55:55,341] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:55,343] {mysql.py:70} INFO - Executing: INSERT INTO standardized.parts
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 11:55:55,365] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:55:55,379] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.parts
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.PART p
+    WHERE 
+        p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 11:55:55,492] {dbapi.py:212} INFO - Rows affected: 2000
+[2021-08-08 11:55:55,532] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_parts, execution_date=20210808T100000, start_date=20210808T115555, end_date=20210808T115555
+[2021-08-08 11:55:55,588] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:55:55,604] {local_task_job.py:149} INFO - Task exited with return code 0

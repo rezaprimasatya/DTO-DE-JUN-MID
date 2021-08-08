@@ -1,0 +1,213 @@
+[2021-08-08 11:01:03,955] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:03,989] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:01:03,990] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:03,991] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:01:03,992] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:01:04,023] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_orders> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:04,035] {standard_task_runner.py:52} INFO - Started process 11025 to run task
+[2021-08-08 11:01:04,054] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_orders', '2021-08-08T10:00:00+00:00', '--job-id', '106', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpsjsqbip_', '--error-file', '/tmp/tmpz_cya2j8']
+[2021-08-08 11:01:04,058] {standard_task_runner.py:77} INFO - Job 106: Subtask standardized_orders
+[2021-08-08 11:01:04,152] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 11:01:04,260] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_orders
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:01:04,261] {mysql.py:70} INFO - Executing: INSERT INTO standardized.orders
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 11:01:04,282] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:01:04,302] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.orders
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 11:01:04,857] {dbapi.py:212} INFO - Rows affected: 15000
+[2021-08-08 11:01:04,876] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_orders, execution_date=20210808T100000, start_date=20210808T110103, end_date=20210808T110104
+[2021-08-08 11:01:04,903] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:01:04,917] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:04:35,561] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:35,640] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:04:35,642] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:35,643] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:04:35,644] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:04:35,670] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_orders> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:35,682] {standard_task_runner.py:52} INFO - Started process 290 to run task
+[2021-08-08 11:04:35,693] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_orders', '2021-08-08T10:00:00+00:00', '--job-id', '19', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpvpq7h1f1', '--error-file', '/tmp/tmpq0wcv164']
+[2021-08-08 11:04:35,694] {standard_task_runner.py:77} INFO - Job 19: Subtask standardized_orders
+[2021-08-08 11:04:35,775] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [running]> on host ce886ce1d63a
+[2021-08-08 11:04:35,871] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_orders
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:04:35,872] {mysql.py:70} INFO - Executing: INSERT INTO standardized.orders
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 11:04:35,900] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:04:35,920] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.orders
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 11:04:36,234] {dbapi.py:212} INFO - Rows affected: 15000
+[2021-08-08 11:04:36,256] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_orders, execution_date=20210808T100000, start_date=20210808T110435, end_date=20210808T110436
+[2021-08-08 11:04:36,299] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:04:36,318] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 11:55:55,045] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:55,086] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [queued]>
+[2021-08-08 11:55:55,087] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:55,088] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 11:55:55,089] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 11:55:55,112] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_orders> on 2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:55,118] {standard_task_runner.py:52} INFO - Started process 330 to run task
+[2021-08-08 11:55:55,123] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_orders', '2021-08-08T10:00:00+00:00', '--job-id', '18', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp7h2npv45', '--error-file', '/tmp/tmpzgfzbr89']
+[2021-08-08 11:55:55,127] {standard_task_runner.py:77} INFO - Job 18: Subtask standardized_orders
+[2021-08-08 11:55:55,192] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_orders 2021-08-08T10:00:00+00:00 [running]> on host 7f57f947ae95
+[2021-08-08 11:55:55,276] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_orders
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T10:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T10:00:00+00:00
+[2021-08-08 11:55:55,278] {mysql.py:70} INFO - Executing: INSERT INTO standardized.orders
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data
+[2021-08-08 11:55:55,296] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 11:55:55,315] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.orders
+WITH timeframed_data AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	timeframed_data, parameters: None
+[2021-08-08 11:55:55,749] {dbapi.py:212} INFO - Rows affected: 15000
+[2021-08-08 11:55:55,770] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_orders, execution_date=20210808T100000, start_date=20210808T115555, end_date=20210808T115555
+[2021-08-08 11:55:55,806] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 11:55:55,824] {local_task_job.py:149} INFO - Task exited with return code 0

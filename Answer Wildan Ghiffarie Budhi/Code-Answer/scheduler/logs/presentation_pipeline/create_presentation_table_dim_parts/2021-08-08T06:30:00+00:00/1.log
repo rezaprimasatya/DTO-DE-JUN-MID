@@ -1,0 +1,59 @@
+[2021-08-08 06:38:26,484] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_parts 2021-08-08T06:30:00+00:00 [queued]>
+[2021-08-08 06:38:26,504] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.create_presentation_table_dim_parts 2021-08-08T06:30:00+00:00 [queued]>
+[2021-08-08 06:38:26,505] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 06:38:26,505] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 06:38:26,506] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 06:38:26,517] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_presentation_table_dim_parts> on 2021-08-08T06:30:00+00:00
+[2021-08-08 06:38:26,523] {standard_task_runner.py:52} INFO - Started process 415 to run task
+[2021-08-08 06:38:26,530] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'create_presentation_table_dim_parts', '2021-08-08T06:30:00+00:00', '--job-id', '24', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpkrcq_76b', '--error-file', '/tmp/tmpvbmttevt']
+[2021-08-08 06:38:26,538] {standard_task_runner.py:77} INFO - Job 24: Subtask create_presentation_table_dim_parts
+[2021-08-08 06:38:26,611] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.create_presentation_table_dim_parts 2021-08-08T06:30:00+00:00 [running]> on host 53d8ed6396aa
+[2021-08-08 06:38:26,686] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=create_presentation_table_dim_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:30:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:30:00+00:00
+[2021-08-08 06:38:26,687] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS presentation.parts (
+    PART_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_PK` PRIMARY KEY (PART_KEY)
+) AS
+
+SELECT 
+	DISTINCT 
+	p.PART_KEY,
+	p.PART_NAME,
+	p.PART_SIZE_NUMBER,
+	p.PART_CONTAINER_TYPE,
+	p.PART_RETAIL_PRICE,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.parts p
+WHERE 
+	p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+[2021-08-08 06:38:26,697] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 06:38:26,706] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS presentation.parts (
+    PART_KEY INT NOT NULL,
+    INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `PART_PK` PRIMARY KEY (PART_KEY)
+) AS
+
+SELECT 
+	DISTINCT 
+	p.PART_KEY,
+	p.PART_NAME,
+	p.PART_SIZE_NUMBER,
+	p.PART_CONTAINER_TYPE,
+	p.PART_RETAIL_PRICE,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.parts p
+WHERE 
+	p.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE), parameters: None
+[2021-08-08 06:38:26,777] {dbapi.py:212} INFO - Rows affected: 2000
+[2021-08-08 06:38:26,794] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=create_presentation_table_dim_parts, execution_date=20210808T063000, start_date=20210808T063826, end_date=20210808T063826
+[2021-08-08 06:38:26,820] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 06:38:26,870] {local_task_job.py:149} INFO - Task exited with return code 0

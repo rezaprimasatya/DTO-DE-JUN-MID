@@ -1,0 +1,212 @@
+[2021-08-08 08:05:29,355] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:05:29,369] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:05:29,372] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:05:29,372] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:05:29,374] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:05:29,382] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:05:29,388] {standard_task_runner.py:52} INFO - Started process 1173 to run task
+[2021-08-08 08:05:29,393] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '38', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpn28zpmzp', '--error-file', '/tmp/tmpd4c6c_9e']
+[2021-08-08 08:05:29,394] {standard_task_runner.py:77} INFO - Job 38: Subtask presentation_dim_customers
+[2021-08-08 08:05:29,461] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host e453c42896df
+[2021-08-08 08:05:29,516] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:05:29,517] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+[2021-08-08 08:05:29,534] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:05:29,547] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR), parameters: None
+[2021-08-08 08:05:29,583] {dbapi.py:212} INFO - Rows affected: 1500
+[2021-08-08 08:05:29,598] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_customers, execution_date=20210808T070000, start_date=20210808T080529, end_date=20210808T080529
+[2021-08-08 08:05:29,632] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:05:29,649] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:21:22,966] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:21:22,988] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:21:22,989] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:21:22,989] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:21:22,990] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:21:22,997] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:21:23,006] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '38', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpkdkgl5ly', '--error-file', '/tmp/tmpwysd1hwv']
+[2021-08-08 08:21:23,002] {standard_task_runner.py:52} INFO - Started process 499 to run task
+[2021-08-08 08:21:23,007] {standard_task_runner.py:77} INFO - Job 38: Subtask presentation_dim_customers
+[2021-08-08 08:21:23,053] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host 99d60a4279b8
+[2021-08-08 08:21:23,107] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:21:23,108] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+[2021-08-08 08:21:23,120] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:21:23,130] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR), parameters: None
+[2021-08-08 08:21:23,167] {dbapi.py:212} INFO - Rows affected: 1500
+[2021-08-08 08:21:23,184] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_customers, execution_date=20210808T070000, start_date=20210808T082122, end_date=20210808T082123
+[2021-08-08 08:21:23,211] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:21:23,262] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:32:40,793] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:32:40,814] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:32:40,816] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:32:40,820] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:32:40,823] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:32:40,844] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:32:40,854] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '30', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmproif096q', '--error-file', '/tmp/tmp0h6elztd']
+[2021-08-08 08:32:40,850] {standard_task_runner.py:52} INFO - Started process 363 to run task
+[2021-08-08 08:32:40,856] {standard_task_runner.py:77} INFO - Job 30: Subtask presentation_dim_customers
+[2021-08-08 08:32:40,932] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host 5e970160fe16
+[2021-08-08 08:32:41,005] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:32:41,006] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+[2021-08-08 08:32:41,018] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:32:41,031] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR), parameters: None
+[2021-08-08 08:32:41,065] {dbapi.py:212} INFO - Rows affected: 1500
+[2021-08-08 08:32:41,083] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_customers, execution_date=20210808T070000, start_date=20210808T083240, end_date=20210808T083241
+[2021-08-08 08:32:41,115] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:32:41,155] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 08:52:09,888] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:52:09,902] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [queued]>
+[2021-08-08 08:52:09,903] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:52:09,904] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 08:52:09,904] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 08:52:09,928] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_customers> on 2021-08-08T07:00:00+00:00
+[2021-08-08 08:52:09,937] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_customers', '2021-08-08T07:00:00+00:00', '--job-id', '30', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpuxa4btgb', '--error-file', '/tmp/tmp_6bv1q6_']
+[2021-08-08 08:52:09,933] {standard_task_runner.py:52} INFO - Started process 419 to run task
+[2021-08-08 08:52:09,939] {standard_task_runner.py:77} INFO - Job 30: Subtask presentation_dim_customers
+[2021-08-08 08:52:09,995] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_customers 2021-08-08T07:00:00+00:00 [running]> on host 99eefc5c6cd8
+[2021-08-08 08:52:10,057] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T07:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T07:00:00+00:00
+[2021-08-08 08:52:10,058] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+[2021-08-08 08:52:10,068] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 08:52:10,079] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.customers
+SELECT 
+	DISTINCT
+	c.CUSTOMER_KEY,
+	n.NATION_NAME,
+	c.CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+	c.CUSTOMER_MARKET_SEGMENT_TYPE, 
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.customers c 
+LEFT JOIN
+	standardized.nations n 
+	ON c.NATION_KEY = n.NATION_KEY 
+WHERE
+	c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR), parameters: None
+[2021-08-08 08:52:10,115] {dbapi.py:212} INFO - Rows affected: 1500
+[2021-08-08 08:52:10,131] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_customers, execution_date=20210808T070000, start_date=20210808T085209, end_date=20210808T085210
+[2021-08-08 08:52:10,161] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 08:52:10,195] {local_task_job.py:149} INFO - Task exited with return code 0

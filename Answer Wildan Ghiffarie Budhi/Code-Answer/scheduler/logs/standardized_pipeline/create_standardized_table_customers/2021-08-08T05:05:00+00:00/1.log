@@ -1,0 +1,140 @@
+[2021-08-08 05:12:02,471] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_customers 2021-08-08T05:05:00+00:00 [queued]>
+[2021-08-08 05:12:02,516] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_customers 2021-08-08T05:05:00+00:00 [queued]>
+[2021-08-08 05:12:02,517] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:12:02,518] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 05:12:02,520] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:12:02,550] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_customers> on 2021-08-08T05:05:00+00:00
+[2021-08-08 05:12:02,564] {standard_task_runner.py:52} INFO - Started process 389 to run task
+[2021-08-08 05:12:02,586] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_customers', '2021-08-08T05:05:00+00:00', '--job-id', '31', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpdd5q28rm', '--error-file', '/tmp/tmp4ab8h91n']
+[2021-08-08 05:12:02,588] {standard_task_runner.py:77} INFO - Job 31: Subtask create_standardized_table_customers
+[2021-08-08 05:12:02,778] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_customers 2021-08-08T05:05:00+00:00 [running]> on host dbfb9e13da58
+[2021-08-08 05:12:02,989] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:05:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:05:00+00:00
+[2021-08-08 05:12:02,991] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.customers (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(C_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+		C_NAME AS CUSTOMER_NAME,
+		C_ADDRESS AS CUSTOMER_ADDRESS,
+		CAST(C_NATIONKEY AS SIGNED) AS NATION_KEY,
+		C_PHONE AS CUSTOMER_PHONE,
+		C_ACCTBAL AS CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+		C_MKTSEGMENT AS CUSTOMER_MARKET_SEGMENT_TYPE,
+		C_COMMENT AS CUSTOMER_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.CUSTOMER c
+	WHERE 
+		c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 05:12:03,031] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:12:03,072] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.customers (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(C_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+		C_NAME AS CUSTOMER_NAME,
+		C_ADDRESS AS CUSTOMER_ADDRESS,
+		CAST(C_NATIONKEY AS SIGNED) AS NATION_KEY,
+		C_PHONE AS CUSTOMER_PHONE,
+		C_ACCTBAL AS CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+		C_MKTSEGMENT AS CUSTOMER_MARKET_SEGMENT_TYPE,
+		C_COMMENT AS CUSTOMER_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.CUSTOMER c
+	WHERE 
+		c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 05:12:03,078] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 05:12:03,104] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_customers, execution_date=20210808T050500, start_date=20210808T051202, end_date=20210808T051203
+[2021-08-08 05:12:03,195] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:12:03,242] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 07:05:57,938] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_customers 2021-08-08T05:05:00+00:00 [queued]>
+[2021-08-08 07:05:57,992] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_customers 2021-08-08T05:05:00+00:00 [queued]>
+[2021-08-08 07:05:57,993] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:05:57,994] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 07:05:57,994] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:05:58,006] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_customers> on 2021-08-08T05:05:00+00:00
+[2021-08-08 07:05:58,013] {standard_task_runner.py:52} INFO - Started process 250 to run task
+[2021-08-08 07:05:58,030] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_customers', '2021-08-08T05:05:00+00:00', '--job-id', '14', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpe58m6tai', '--error-file', '/tmp/tmp85qgkqmz']
+[2021-08-08 07:05:58,032] {standard_task_runner.py:77} INFO - Job 14: Subtask create_standardized_table_customers
+[2021-08-08 07:05:58,102] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_customers 2021-08-08T05:05:00+00:00 [running]> on host bf836d82c89b
+[2021-08-08 07:05:58,202] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:05:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:05:00+00:00
+[2021-08-08 07:05:58,204] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.customers (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(C_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+		C_NAME AS CUSTOMER_NAME,
+		C_ADDRESS AS CUSTOMER_ADDRESS,
+		CAST(C_NATIONKEY AS SIGNED) AS NATION_KEY,
+		C_PHONE AS CUSTOMER_PHONE,
+		C_ACCTBAL AS CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+		C_MKTSEGMENT AS CUSTOMER_MARKET_SEGMENT_TYPE,
+		C_COMMENT AS CUSTOMER_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.CUSTOMER c
+	WHERE 
+		c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 07:05:58,232] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:05:58,249] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.customers (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(C_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+		C_NAME AS CUSTOMER_NAME,
+		C_ADDRESS AS CUSTOMER_ADDRESS,
+		CAST(C_NATIONKEY AS SIGNED) AS NATION_KEY,
+		C_PHONE AS CUSTOMER_PHONE,
+		C_ACCTBAL AS CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+		C_MKTSEGMENT AS CUSTOMER_MARKET_SEGMENT_TYPE,
+		C_COMMENT AS CUSTOMER_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.CUSTOMER c
+	WHERE 
+		c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 07:05:58,390] {dbapi.py:212} INFO - Rows affected: 1500
+[2021-08-08 07:05:58,403] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_customers, execution_date=20210808T050500, start_date=20210808T070557, end_date=20210808T070558
+[2021-08-08 07:05:58,430] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:05:58,454] {local_task_job.py:149} INFO - Task exited with return code 0

@@ -1,0 +1,5 @@
+data.zip was generated from SQLite3 database file format, 
+with table type of file.
+Table file using | for the seperator of column and |\n for seperator of rows
+data.zip contain all data on orders of parts.
+There are some private data that encrypted such as name, phone so the engineer don't misuse the data.

@@ -1,0 +1,70 @@
+[2021-08-08 07:06:03,328] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_customers 2021-08-08T06:05:00+00:00 [queued]>
+[2021-08-08 07:06:03,357] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_customers 2021-08-08T06:05:00+00:00 [queued]>
+[2021-08-08 07:06:03,358] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:06:03,359] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 07:06:03,360] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:06:03,391] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_customers> on 2021-08-08T06:05:00+00:00
+[2021-08-08 07:06:03,404] {standard_task_runner.py:52} INFO - Started process 295 to run task
+[2021-08-08 07:06:03,417] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_customers', '2021-08-08T06:05:00+00:00', '--job-id', '36', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp9_9ofrje', '--error-file', '/tmp/tmptda7lqmf']
+[2021-08-08 07:06:03,421] {standard_task_runner.py:77} INFO - Job 36: Subtask standardized_customers
+[2021-08-08 07:06:03,519] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_customers 2021-08-08T06:05:00+00:00 [running]> on host bf836d82c89b
+[2021-08-08 07:06:03,623] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_customers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:05:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:05:00+00:00
+[2021-08-08 07:06:03,624] {mysql.py:70} INFO - Executing: INSERT INTO standardized.customers
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(C_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+		C_NAME AS CUSTOMER_NAME,
+		C_ADDRESS AS CUSTOMER_ADDRESS,
+		CAST(C_NATIONKEY AS SIGNED) AS NATION_KEY,
+		C_PHONE AS CUSTOMER_PHONE,
+		C_ACCTBAL AS CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+		C_MKTSEGMENT AS CUSTOMER_MARKET_SEGMENT_TYPE,
+		C_COMMENT AS CUSTOMER_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.CUSTOMER c
+	WHERE 
+		c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 07:06:03,640] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:06:03,655] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.customers
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(C_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+		C_NAME AS CUSTOMER_NAME,
+		C_ADDRESS AS CUSTOMER_ADDRESS,
+		CAST(C_NATIONKEY AS SIGNED) AS NATION_KEY,
+		C_PHONE AS CUSTOMER_PHONE,
+		C_ACCTBAL AS CUSTOMER_ACCOUNT_BALANCE_TOTAL,
+		C_MKTSEGMENT AS CUSTOMER_MARKET_SEGMENT_TYPE,
+		C_COMMENT AS CUSTOMER_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.CUSTOMER c
+	WHERE 
+		c.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 07:06:03,721] {dbapi.py:212} INFO - Rows affected: 1500
+[2021-08-08 07:06:03,751] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_customers, execution_date=20210808T060500, start_date=20210808T070603, end_date=20210808T070603
+[2021-08-08 07:06:03,798] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:06:03,849] {local_task_job.py:149} INFO - Task exited with return code 0

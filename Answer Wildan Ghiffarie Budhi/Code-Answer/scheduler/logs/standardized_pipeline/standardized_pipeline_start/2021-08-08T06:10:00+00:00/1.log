@@ -1,0 +1,22 @@
+[2021-08-08 07:10:01,113] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T06:10:00+00:00 [queued]>
+[2021-08-08 07:10:01,128] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T06:10:00+00:00 [queued]>
+[2021-08-08 07:10:01,128] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:10:01,129] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 07:10:01,129] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:10:01,137] {taskinstance.py:1107} INFO - Executing <Task(ExternalTaskSensor): standardized_pipeline_start> on 2021-08-08T06:10:00+00:00
+[2021-08-08 07:10:01,145] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_pipeline_start', '2021-08-08T06:10:00+00:00', '--job-id', '61', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpx7opwnwq', '--error-file', '/tmp/tmpyza74baq']
+[2021-08-08 07:10:01,141] {standard_task_runner.py:52} INFO - Started process 688 to run task
+[2021-08-08 07:10:01,146] {standard_task_runner.py:77} INFO - Job 61: Subtask standardized_pipeline_start
+[2021-08-08 07:10:01,197] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_pipeline_start 2021-08-08T06:10:00+00:00 [running]> on host bf836d82c89b
+[2021-08-08 07:10:01,241] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_pipeline_start
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:10:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:10:00+00:00
+[2021-08-08 07:10:01,242] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T06:10:00+00:00 ... 
+[2021-08-08 07:11:01,261] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T06:10:00+00:00 ... 
+[2021-08-08 07:12:01,260] {external_task.py:152} INFO - Poking for to_datalake_pipeline.to_datalake_pipeline_end on 2021-08-08T06:10:00+00:00 ... 

@@ -1,0 +1,3 @@
+To deploy this system easily by run the instruction that has explained in "STEP-BY-STEP INSTRUCTION.pdf" file
+There is no change if we want to deploy it in conatiner environment because this system has already built in docker environment.
+With docker we can easily maintain, add resource, update, etc. Because docker has own container every system so there are no dependency each other.

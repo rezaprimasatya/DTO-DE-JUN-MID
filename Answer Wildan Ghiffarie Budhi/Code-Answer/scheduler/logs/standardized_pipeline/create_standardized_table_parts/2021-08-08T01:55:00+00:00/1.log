@@ -1,0 +1,62 @@
+[2021-08-08 02:02:26,574] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_parts 2021-08-08T01:55:00+00:00 [queued]>
+[2021-08-08 02:02:26,647] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_parts 2021-08-08T01:55:00+00:00 [queued]>
+[2021-08-08 02:02:26,649] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 02:02:26,651] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 02:02:26,653] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 02:02:26,681] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_parts> on 2021-08-08T01:55:00+00:00
+[2021-08-08 02:02:26,722] {standard_task_runner.py:52} INFO - Started process 3532 to run task
+[2021-08-08 02:02:26,757] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_parts', '2021-08-08T01:55:00+00:00', '--job-id', '8', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpvdm0llhd', '--error-file', '/tmp/tmprk8ig86e']
+[2021-08-08 02:02:26,760] {standard_task_runner.py:77} INFO - Job 8: Subtask create_standardized_table_parts
+[2021-08-08 02:02:27,067] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_parts 2021-08-08T01:55:00+00:00 [running]> on host 02070657999c
+[2021-08-08 02:02:27,348] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_parts
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T01:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T01:55:00+00:00
+[2021-08-08 02:02:27,353] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS parts AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(P_PARTKEY AS SIGNED) AS PART_KEY,
+        P_NAME AS PART_NAME,
+        P_MFGR AS PART_MANUFACTURE_GROUP_NAME,
+        P_BRAND AS PART_BRAND_NAME,
+        P_TYPE AS PART_TYPE,
+        CAST(P_SIZE AS SIGNED) AS PART_SIZE_NUMBER,
+        P_CONTAINER AS PART_CONTAINER_TYPE,
+        P_RETAILPRICE AS PART_RETAIL_PRICE,
+        P_COMMENT AS PART_COMMENT
+    FROM
+        datalake.PART
+    WHERE 
+        INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 02:02:27,457] {taskinstance.py:1501} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1157, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1331, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1361, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/operators/mysql.py", line 72, in execute
+    hook.run(self.sql, autocommit=self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/dbapi.py", line 177, in run
+    with closing(self.get_conn()) as conn:
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/providers/mysql/hooks/mysql.py", line 164, in get_conn
+    getattr(self, self.conn_name_attr)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/hooks/base.py", line 67, in get_connection
+    conn = Connection.get_connection_from_secrets(conn_id)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/connection.py", line 379, in get_connection_from_secrets
+    raise AirflowNotFoundException(f"The conn_id `{conn_id}` isn't defined")
+airflow.exceptions.AirflowNotFoundException: The conn_id `dwh_id` isn't defined
+[2021-08-08 02:02:27,468] {taskinstance.py:1551} INFO - Marking task as FAILED. dag_id=standardized_pipeline, task_id=create_standardized_table_parts, execution_date=20210808T015500, start_date=20210808T020226, end_date=20210808T020227
+[2021-08-08 02:02:27,602] {local_task_job.py:149} INFO - Task exited with return code 1

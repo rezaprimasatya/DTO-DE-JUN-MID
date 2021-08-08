@@ -1,0 +1,106 @@
+[2021-08-08 05:22:03,302] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_nations 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:22:03,319] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_nations 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:22:03,320] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:22:03,320] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 05:22:03,321] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:22:03,334] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_nations> on 2021-08-08T05:15:00+00:00
+[2021-08-08 05:22:03,343] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_nations', '2021-08-08T05:15:00+00:00', '--job-id', '116', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpcqr9dbt4', '--error-file', '/tmp/tmpcnhvrwjf']
+[2021-08-08 05:22:03,339] {standard_task_runner.py:52} INFO - Started process 1408 to run task
+[2021-08-08 05:22:03,344] {standard_task_runner.py:77} INFO - Job 116: Subtask presentation_dim_nations
+[2021-08-08 05:22:03,398] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_nations 2021-08-08T05:15:00+00:00 [running]> on host dbfb9e13da58
+[2021-08-08 05:22:03,474] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:15:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:15:00+00:00
+[2021-08-08 05:22:03,475] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.nations
+SELECT 
+	DISTINCT 
+	n.NATION_KEY,
+	n.NATION_NAME,
+	r.REGION_KEY,
+	r.REGION_NAME,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.nations n
+LEFT JOIN 
+	standardized.regions r
+	ON n.REGION_KEY = r.REGION_KEY 
+WHERE 
+	n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+[2021-08-08 05:22:03,491] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:22:03,501] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.nations
+SELECT 
+	DISTINCT 
+	n.NATION_KEY,
+	n.NATION_NAME,
+	r.REGION_KEY,
+	r.REGION_NAME,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.nations n
+LEFT JOIN 
+	standardized.regions r
+	ON n.REGION_KEY = r.REGION_KEY 
+WHERE 
+	n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE), parameters: None
+[2021-08-08 05:22:03,505] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 05:22:03,516] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_nations, execution_date=20210808T051500, start_date=20210808T052203, end_date=20210808T052203
+[2021-08-08 05:22:03,548] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:22:03,559] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 05:27:14,541] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_nations 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:27:14,567] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: presentation_pipeline.presentation_dim_nations 2021-08-08T05:15:00+00:00 [queued]>
+[2021-08-08 05:27:14,569] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:27:14,570] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-08 05:27:14,571] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:27:14,585] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): presentation_dim_nations> on 2021-08-08T05:15:00+00:00
+[2021-08-08 05:27:14,590] {standard_task_runner.py:52} INFO - Started process 452 to run task
+[2021-08-08 05:27:14,601] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'presentation_pipeline', 'presentation_dim_nations', '2021-08-08T05:15:00+00:00', '--job-id', '50', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/presentation_pipeline.py', '--cfg-path', '/tmp/tmpmcdh6r5a', '--error-file', '/tmp/tmpa7m8dx72']
+[2021-08-08 05:27:14,609] {standard_task_runner.py:77} INFO - Job 50: Subtask presentation_dim_nations
+[2021-08-08 05:27:14,705] {logging_mixin.py:104} INFO - Running <TaskInstance: presentation_pipeline.presentation_dim_nations 2021-08-08T05:15:00+00:00 [running]> on host b48e43d568d5
+[2021-08-08 05:27:14,818] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=presentation_pipeline
+AIRFLOW_CTX_TASK_ID=presentation_dim_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:15:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:15:00+00:00
+[2021-08-08 05:27:14,819] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO presentation.nations
+SELECT 
+	DISTINCT 
+	n.NATION_KEY,
+	n.NATION_NAME,
+	r.REGION_KEY,
+	r.REGION_NAME,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.nations n
+LEFT JOIN 
+	standardized.regions r
+	ON n.REGION_KEY = r.REGION_KEY 
+WHERE 
+	n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+[2021-08-08 05:27:14,836] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:27:14,858] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO presentation.nations
+SELECT 
+	DISTINCT 
+	n.NATION_KEY,
+	n.NATION_NAME,
+	r.REGION_KEY,
+	r.REGION_NAME,
+	NOW() AS INGESTION_TIMESTAMP
+FROM 
+	standardized.nations n
+LEFT JOIN 
+	standardized.regions r
+	ON n.REGION_KEY = r.REGION_KEY 
+WHERE 
+	n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE), parameters: None
+[2021-08-08 05:27:14,863] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 05:27:14,901] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=presentation_pipeline, task_id=presentation_dim_nations, execution_date=20210808T051500, start_date=20210808T052714, end_date=20210808T052714
+[2021-08-08 05:27:14,961] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:27:14,987] {local_task_job.py:149} INFO - Task exited with return code 0

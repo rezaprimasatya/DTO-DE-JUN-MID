@@ -1,0 +1,119 @@
+[2021-08-07 15:13:23,395] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_lineitem 2021-08-07T15:13:20.433410+00:00 [queued]>
+[2021-08-07 15:13:23,439] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_lineitem 2021-08-07T15:13:20.433410+00:00 [queued]>
+[2021-08-07 15:13:23,440] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 15:13:23,441] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 15:13:23,442] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 15:13:23,497] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_lineitem> on 2021-08-07T15:13:20.433410+00:00
+[2021-08-07 15:13:23,505] {standard_task_runner.py:52} INFO - Started process 361 to run task
+[2021-08-07 15:13:23,520] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_lineitem', '2021-08-07T15:13:20.433410+00:00', '--job-id', '24', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmph05kn7is', '--error-file', '/tmp/tmpe6nml3om']
+[2021-08-07 15:13:23,523] {standard_task_runner.py:77} INFO - Job 24: Subtask standardized_lineitem
+[2021-08-07 15:13:23,647] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_lineitem 2021-08-07T15:13:20.433410+00:00 [running]> on host 840edc4bbc5d
+[2021-08-07 15:13:23,799] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_lineitem
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T15:13:20.433410+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-07T15:13:20.433410+00:00
+[2021-08-07 15:13:23,802] {mysql.py:70} INFO - Executing: INSERT IGNORE INTO standardized.LINEITEM(
+	`ORDER_KEY`,
+    `PART_KEY`,
+    `SUPPLIER_KEY`,
+    `LINEITEM_KEY`,
+    `LINEITEM_QUANTITY`,
+    `LINEITEM_EXTENDEDPRICE`,
+    `LINEITEM_DISCOUNT`,
+    `LINEITEM_TAX`,
+    `LINEITEM_RETURNFLAG`,
+    `LINEITEM_LINESTATUS`,
+    `LINEITEM_SHIPDATE`,
+    `LINEITEM_COMMITDATE`,
+    `LINEITEM_RECEIPTDATE`,
+    `LINEITEM_SHIPINSTRUCT`,
+    `LINEITEM_SHIPMODE`,
+    `LINEITEM_COMMENT`
+) 
+
+WITH lineitem_last_5_minutes AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS L_ORDERKEY, 
+        CAST(L_PARTKEY AS SIGNED) AS L_PARTKEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS L_SUPPKEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS L_LINENUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS L_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS L_EXTENDEDPRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS L_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS L_TAX, 
+        L_RETURNFLAG, 
+        L_LINESTATUS, 
+        CAST(L_SHIPDATE AS DATE) AS L_SHIPDATE, 
+        CAST(L_COMMITDATE AS DATE) AS L_COMMITDATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS L_RECEIPTDATE, 
+        L_SHIPINSTRUCT, 
+        L_SHIPMODE, 
+        L_COMMENT
+    FROM 
+        datalake.LINEITEM
+    WHERE 
+        INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	lineitem_last_5_minutes
+[2021-08-07 15:13:23,827] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 15:13:23,849] {dbapi.py:204} INFO - Running statement: INSERT IGNORE INTO standardized.LINEITEM(
+	`ORDER_KEY`,
+    `PART_KEY`,
+    `SUPPLIER_KEY`,
+    `LINEITEM_KEY`,
+    `LINEITEM_QUANTITY`,
+    `LINEITEM_EXTENDEDPRICE`,
+    `LINEITEM_DISCOUNT`,
+    `LINEITEM_TAX`,
+    `LINEITEM_RETURNFLAG`,
+    `LINEITEM_LINESTATUS`,
+    `LINEITEM_SHIPDATE`,
+    `LINEITEM_COMMITDATE`,
+    `LINEITEM_RECEIPTDATE`,
+    `LINEITEM_SHIPINSTRUCT`,
+    `LINEITEM_SHIPMODE`,
+    `LINEITEM_COMMENT`
+) 
+
+WITH lineitem_last_5_minutes AS (
+	SELECT 
+        DISTINCT
+        CAST(L_ORDERKEY AS SIGNED) AS L_ORDERKEY, 
+        CAST(L_PARTKEY AS SIGNED) AS L_PARTKEY, 
+        CAST(L_SUPPKEY AS SIGNED) AS L_SUPPKEY, 
+        CAST(L_LINENUMBER AS SIGNED) AS L_LINENUMBER, 
+        CAST(L_QUANTITY AS SIGNED) AS L_QUANTITY, 
+        CAST(L_EXTENDEDPRICE AS SIGNED) AS L_EXTENDEDPRICE, 
+        CAST(L_DISCOUNT AS SIGNED) AS L_DISCOUNT, 
+        CAST(L_TAX AS SIGNED) AS L_TAX, 
+        L_RETURNFLAG, 
+        L_LINESTATUS, 
+        CAST(L_SHIPDATE AS DATE) AS L_SHIPDATE, 
+        CAST(L_COMMITDATE AS DATE) AS L_COMMITDATE, 
+        CAST(L_RECEIPTDATE AS DATE) AS L_RECEIPTDATE, 
+        L_SHIPINSTRUCT, 
+        L_SHIPMODE, 
+        L_COMMENT
+    FROM 
+        datalake.LINEITEM
+    WHERE 
+        INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	lineitem_last_5_minutes, parameters: None
+[2021-08-07 15:13:24,884] {dbapi.py:212} INFO - Rows affected: 60175
+[2021-08-07 15:13:24,917] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_lineitem, execution_date=20210807T151320, start_date=20210807T151323, end_date=20210807T151324
+[2021-08-07 15:13:24,960] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 15:13:25,002] {local_task_job.py:149} INFO - Task exited with return code 0

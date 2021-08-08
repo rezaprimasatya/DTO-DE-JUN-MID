@@ -1,0 +1,136 @@
+[2021-08-08 05:06:03,551] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_suppliers 2021-08-08T05:00:00+00:00 [queued]>
+[2021-08-08 05:06:03,575] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_suppliers 2021-08-08T05:00:00+00:00 [queued]>
+[2021-08-08 05:06:03,576] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:06:03,577] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 05:06:03,578] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:06:03,614] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_suppliers> on 2021-08-08T05:00:00+00:00
+[2021-08-08 05:06:03,618] {standard_task_runner.py:52} INFO - Started process 6828 to run task
+[2021-08-08 05:06:03,631] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_suppliers', '2021-08-08T05:00:00+00:00', '--job-id', '106', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpzd6ranp4', '--error-file', '/tmp/tmpnuxe4c2t']
+[2021-08-08 05:06:03,634] {standard_task_runner.py:77} INFO - Job 106: Subtask standardized_suppliers
+[2021-08-08 05:06:03,750] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_suppliers 2021-08-08T05:00:00+00:00 [running]> on host 75feb3cfb2a6
+[2021-08-08 05:06:03,834] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_suppliers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:00:00+00:00
+[2021-08-08 05:06:03,835] {mysql.py:70} INFO - Executing: INSERT INTO standardized.suppliers
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(S_SUPPKEY AS SIGNED) AS SUPPLIER_KEY,
+        S_NAME AS SUPPLIER_NAME,
+        S_ADDRESS AS SUPPLIER_ADDRESS,
+        CAST(S_NATIONKEY AS SIGNED) AS NATION_KEY,
+        S_PHONE AS SUPPLIER_PHONE,
+        S_ACCTBAL AS SUPPLIER_ACCOUNT_BALANCE_TOTAL,
+        S_COMMENT AS SUPPLIER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.SUPPLIER s
+    WHERE 
+        s.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 05:06:03,851] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:06:03,865] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.suppliers
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(S_SUPPKEY AS SIGNED) AS SUPPLIER_KEY,
+        S_NAME AS SUPPLIER_NAME,
+        S_ADDRESS AS SUPPLIER_ADDRESS,
+        CAST(S_NATIONKEY AS SIGNED) AS NATION_KEY,
+        S_PHONE AS SUPPLIER_PHONE,
+        S_ACCTBAL AS SUPPLIER_ACCOUNT_BALANCE_TOTAL,
+        S_COMMENT AS SUPPLIER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.SUPPLIER s
+    WHERE 
+        s.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 05:06:03,878] {dbapi.py:212} INFO - Rows affected: 100
+[2021-08-08 05:06:03,907] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_suppliers, execution_date=20210808T050000, start_date=20210808T050603, end_date=20210808T050603
+[2021-08-08 05:06:03,938] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:06:03,970] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 05:11:21,087] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_suppliers 2021-08-08T05:00:00+00:00 [queued]>
+[2021-08-08 05:11:21,123] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.standardized_suppliers 2021-08-08T05:00:00+00:00 [queued]>
+[2021-08-08 05:11:21,126] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:11:21,128] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 05:11:21,129] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:11:21,155] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): standardized_suppliers> on 2021-08-08T05:00:00+00:00
+[2021-08-08 05:11:21,166] {standard_task_runner.py:52} INFO - Started process 316 to run task
+[2021-08-08 05:11:21,198] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'standardized_suppliers', '2021-08-08T05:00:00+00:00', '--job-id', '19', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp19yj_ym0', '--error-file', '/tmp/tmpb8dfkyt_']
+[2021-08-08 05:11:21,201] {standard_task_runner.py:77} INFO - Job 19: Subtask standardized_suppliers
+[2021-08-08 05:11:21,348] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.standardized_suppliers 2021-08-08T05:00:00+00:00 [running]> on host dbfb9e13da58
+[2021-08-08 05:11:21,555] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=standardized_suppliers
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:00:00+00:00
+[2021-08-08 05:11:21,559] {mysql.py:70} INFO - Executing: INSERT INTO standardized.suppliers
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(S_SUPPKEY AS SIGNED) AS SUPPLIER_KEY,
+        S_NAME AS SUPPLIER_NAME,
+        S_ADDRESS AS SUPPLIER_ADDRESS,
+        CAST(S_NATIONKEY AS SIGNED) AS NATION_KEY,
+        S_PHONE AS SUPPLIER_PHONE,
+        S_ACCTBAL AS SUPPLIER_ACCOUNT_BALANCE_TOTAL,
+        S_COMMENT AS SUPPLIER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.SUPPLIER s
+    WHERE 
+        s.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 05:11:21,595] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:11:21,629] {dbapi.py:204} INFO - Running statement: INSERT INTO standardized.suppliers
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(S_SUPPKEY AS SIGNED) AS SUPPLIER_KEY,
+        S_NAME AS SUPPLIER_NAME,
+        S_ADDRESS AS SUPPLIER_ADDRESS,
+        CAST(S_NATIONKEY AS SIGNED) AS NATION_KEY,
+        S_PHONE AS SUPPLIER_PHONE,
+        S_ACCTBAL AS SUPPLIER_ACCOUNT_BALANCE_TOTAL,
+        S_COMMENT AS SUPPLIER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.SUPPLIER s
+    WHERE 
+        s.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 05:11:21,651] {dbapi.py:212} INFO - Rows affected: 100
+[2021-08-08 05:11:21,697] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=standardized_suppliers, execution_date=20210808T050000, start_date=20210808T051121, end_date=20210808T051121
+[2021-08-08 05:11:21,798] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:11:21,835] {local_task_job.py:149} INFO - Task exited with return code 0

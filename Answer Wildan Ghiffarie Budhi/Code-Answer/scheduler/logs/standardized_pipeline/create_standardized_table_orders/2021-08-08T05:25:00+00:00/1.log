@@ -1,0 +1,143 @@
+[2021-08-08 05:31:02,111] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_orders 2021-08-08T05:25:00+00:00 [queued]>
+[2021-08-08 05:31:02,141] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_orders 2021-08-08T05:25:00+00:00 [queued]>
+[2021-08-08 05:31:02,142] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:31:02,142] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 05:31:02,146] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 05:31:02,160] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_orders> on 2021-08-08T05:25:00+00:00
+[2021-08-08 05:31:02,165] {standard_task_runner.py:52} INFO - Started process 816 to run task
+[2021-08-08 05:31:02,173] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_orders', '2021-08-08T05:25:00+00:00', '--job-id', '70', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp0sqrjui3', '--error-file', '/tmp/tmpw0ashf6g']
+[2021-08-08 05:31:02,175] {standard_task_runner.py:77} INFO - Job 70: Subtask create_standardized_table_orders
+[2021-08-08 05:31:02,262] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_orders 2021-08-08T05:25:00+00:00 [running]> on host b48e43d568d5
+[2021-08-08 05:31:02,354] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_orders
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:25:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:25:00+00:00
+[2021-08-08 05:31:02,355] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.orders (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 05:31:02,375] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 05:31:02,391] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.orders (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 05:31:02,393] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 05:31:02,410] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_orders, execution_date=20210808T052500, start_date=20210808T053102, end_date=20210808T053102
+[2021-08-08 05:31:02,444] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 05:31:02,476] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 07:22:05,971] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_orders 2021-08-08T05:25:00+00:00 [queued]>
+[2021-08-08 07:22:05,994] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_orders 2021-08-08T05:25:00+00:00 [queued]>
+[2021-08-08 07:22:05,995] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:22:05,996] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 07:22:05,997] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:22:06,012] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_orders> on 2021-08-08T05:25:00+00:00
+[2021-08-08 07:22:06,020] {standard_task_runner.py:52} INFO - Started process 275 to run task
+[2021-08-08 07:22:06,034] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_orders', '2021-08-08T05:25:00+00:00', '--job-id', '6', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpg0ehhemg', '--error-file', '/tmp/tmpfm6adib_']
+[2021-08-08 07:22:06,036] {standard_task_runner.py:77} INFO - Job 6: Subtask create_standardized_table_orders
+[2021-08-08 07:22:06,107] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_orders 2021-08-08T05:25:00+00:00 [running]> on host af246ab3df74
+[2021-08-08 07:22:06,201] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_orders
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T05:25:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T05:25:00+00:00
+[2021-08-08 07:22:06,203] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.orders (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 07:22:06,221] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:22:06,238] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.orders (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+        DISTINCT
+        CAST(O_ORDERKEY AS SIGNED) AS ORDER_KEY,
+        CAST(O_CUSTKEY AS SIGNED) AS CUSTOMER_KEY,
+        O_ORDERSTATUS AS ORDER_STATUS_TYPE,
+        CAST(O_TOTALPRICE AS SIGNED) AS ORDER_TOTAL_PRICE,
+        CAST(O_ORDERDATE AS DATE) AS ORDER_DATE,
+        O_ORDERPRIORITY AS ORDER_PRIORITY_TYPE,
+        O_CLERK AS ORDER_CLERK,
+        O_SHIPPRIORITY AS ORDER_SHIPPRIORITY,
+        O_COMMENT AS ORDER_COMMENT,
+        NOW() AS INGESTION_TIMESTAMP
+    FROM
+        datalake.ORDERS o
+    WHERE 
+        o.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 07:22:06,686] {dbapi.py:212} INFO - Rows affected: 15000
+[2021-08-08 07:22:06,698] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_orders, execution_date=20210808T052500, start_date=20210808T072205, end_date=20210808T072206
+[2021-08-08 07:22:06,721] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:22:06,769] {local_task_job.py:149} INFO - Task exited with return code 0

@@ -1,0 +1,186 @@
+[2021-08-08 06:06:02,087] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 06:06:02,134] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 06:06:02,140] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 06:06:02,143] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 06:06:02,145] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 06:06:02,161] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_nations> on 2021-08-08T06:00:00+00:00
+[2021-08-08 06:06:02,170] {standard_task_runner.py:52} INFO - Started process 4296 to run task
+[2021-08-08 06:06:02,180] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_nations', '2021-08-08T06:00:00+00:00', '--job-id', '272', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpy97lmhf9', '--error-file', '/tmp/tmp76d4dh9n']
+[2021-08-08 06:06:02,183] {standard_task_runner.py:77} INFO - Job 272: Subtask create_standardized_table_nations
+[2021-08-08 06:06:02,267] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [running]> on host b48e43d568d5
+[2021-08-08 06:06:02,356] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=wildangbudhi@gmail.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:00:00+00:00
+[2021-08-08 06:06:02,359] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 06:06:02,379] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 06:06:02,399] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 06:06:02,402] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 06:06:02,421] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_nations, execution_date=20210808T060000, start_date=20210808T060602, end_date=20210808T060602
+[2021-08-08 06:06:02,491] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 06:06:02,517] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 07:33:16,886] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:33:16,910] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:33:16,912] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:33:16,912] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 07:33:16,913] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:33:16,930] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_nations> on 2021-08-08T06:00:00+00:00
+[2021-08-08 07:33:16,951] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_nations', '2021-08-08T06:00:00+00:00', '--job-id', '5', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmpq4i08zvs', '--error-file', '/tmp/tmpwpnezev_']
+[2021-08-08 07:33:16,953] {standard_task_runner.py:77} INFO - Job 5: Subtask create_standardized_table_nations
+[2021-08-08 07:33:16,946] {standard_task_runner.py:52} INFO - Started process 340 to run task
+[2021-08-08 07:33:17,030] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [running]> on host d501b83ad3fd
+[2021-08-08 07:33:17,118] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:00:00+00:00
+[2021-08-08 07:33:17,120] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+[2021-08-08 07:33:17,137] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:33:17,153] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes, parameters: None
+[2021-08-08 07:33:17,182] {dbapi.py:212} INFO - Rows affected: 25
+[2021-08-08 07:33:17,202] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_nations, execution_date=20210808T060000, start_date=20210808T073316, end_date=20210808T073317
+[2021-08-08 07:33:17,259] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:33:17,296] {local_task_job.py:149} INFO - Task exited with return code 0
+[2021-08-08 07:47:08,442] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:47:08,482] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [queued]>
+[2021-08-08 07:47:08,483] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:47:08,484] {taskinstance.py:1088} INFO - Starting attempt 1 of 11
+[2021-08-08 07:47:08,485] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-08 07:47:08,508] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_nations> on 2021-08-08T06:00:00+00:00
+[2021-08-08 07:47:08,519] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_nations', '2021-08-08T06:00:00+00:00', '--job-id', '5', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmp8jfk_v_1', '--error-file', '/tmp/tmp1okn561r']
+[2021-08-08 07:47:08,521] {standard_task_runner.py:77} INFO - Job 5: Subtask create_standardized_table_nations
+[2021-08-08 07:47:08,515] {standard_task_runner.py:52} INFO - Started process 395 to run task
+[2021-08-08 07:47:08,595] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_nations 2021-08-08T06:00:00+00:00 [running]> on host 0540c8fa99d2
+[2021-08-08 07:47:08,706] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_nations
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-08T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-08-08T06:00:00+00:00
+[2021-08-08 07:47:08,707] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+LIMIT 0
+[2021-08-08 07:47:08,716] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-08 07:47:08,732] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.nations (INGESTION_TIMESTAMP TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) AS
+WITH data_last_5_minutes AS (
+	SELECT
+		DISTINCT 
+		CAST(N_NATIONKEY AS SIGNED) AS NATION_KEY,
+		N_NAME AS NATION_NAME,
+		CAST(N_REGIONKEY AS SIGNED) AS REGION_KEY,
+		N_COMMENT AS NATION_COMMENT,
+		NOW() AS INGESTION_TIMESTAMP
+	FROM
+		datalake.NATION n
+	WHERE 
+		n.INGESTION_TIMESTAMP >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+)
+
+SELECT 
+	* 
+FROM 
+	data_last_5_minutes
+LIMIT 0, parameters: None
+[2021-08-08 07:47:08,753] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-08 07:47:08,765] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_nations, execution_date=20210808T060000, start_date=20210808T074708, end_date=20210808T074708
+[2021-08-08 07:47:08,806] {taskinstance.py:1265} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-08-08 07:47:08,821] {local_task_job.py:149} INFO - Task exited with return code 0

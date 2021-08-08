@@ -1,0 +1,39 @@
+[2021-08-07 14:23:13,083] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_partsupp 2021-08-07T14:23:11.858380+00:00 [queued]>
+[2021-08-07 14:23:13,134] {taskinstance.py:896} INFO - Dependencies all met for <TaskInstance: standardized_pipeline.create_standardized_table_partsupp 2021-08-07T14:23:11.858380+00:00 [queued]>
+[2021-08-07 14:23:13,136] {taskinstance.py:1087} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:23:13,140] {taskinstance.py:1088} INFO - Starting attempt 1 of 1
+[2021-08-07 14:23:13,142] {taskinstance.py:1089} INFO - 
+--------------------------------------------------------------------------------
+[2021-08-07 14:23:13,164] {taskinstance.py:1107} INFO - Executing <Task(MySqlOperator): create_standardized_table_partsupp> on 2021-08-07T14:23:11.858380+00:00
+[2021-08-07 14:23:13,197] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'standardized_pipeline', 'create_standardized_table_partsupp', '2021-08-07T14:23:11.858380+00:00', '--job-id', '78', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/standardized_pipeline.py', '--cfg-path', '/tmp/tmptbc4e0e3', '--error-file', '/tmp/tmpw33oehff']
+[2021-08-07 14:23:13,220] {standard_task_runner.py:77} INFO - Job 78: Subtask create_standardized_table_partsupp
+[2021-08-07 14:23:13,186] {standard_task_runner.py:52} INFO - Started process 4859 to run task
+[2021-08-07 14:23:13,360] {logging_mixin.py:104} INFO - Running <TaskInstance: standardized_pipeline.create_standardized_table_partsupp 2021-08-07T14:23:11.858380+00:00 [running]> on host ab70d6dafbc6
+[2021-08-07 14:23:13,487] {taskinstance.py:1302} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=standardized_pipeline
+AIRFLOW_CTX_TASK_ID=create_standardized_table_partsupp
+AIRFLOW_CTX_EXECUTION_DATE=2021-08-07T14:23:11.858380+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-08-07T14:23:11.858380+00:00
+[2021-08-07 14:23:13,489] {mysql.py:70} INFO - Executing: CREATE TABLE IF NOT EXISTS standardized.PARTSUPP (
+  `PART_KEY` int NOT NULL,
+  `SUPPLIER_KEY` int NOT NULL,
+  `PARTSUPP_AVAILQTY` int NOT NULL,
+  `PARTSUPP_SUPPLYCOST` int NOT NULL,
+  `PARTSUPP_COMMENT` text NOT NULL,
+  `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+[2021-08-07 14:23:13,513] {base.py:78} INFO - Using connection to: id: dwh_id. Host: dwh, Port: 3306, Schema: , Login: root, Password: ***, extra: {}
+[2021-08-07 14:23:13,552] {dbapi.py:204} INFO - Running statement: CREATE TABLE IF NOT EXISTS standardized.PARTSUPP (
+  `PART_KEY` int NOT NULL,
+  `SUPPLIER_KEY` int NOT NULL,
+  `PARTSUPP_AVAILQTY` int NOT NULL,
+  `PARTSUPP_SUPPLYCOST` int NOT NULL,
+  `PARTSUPP_COMMENT` text NOT NULL,
+  `INGESTION_TIMESTAMP` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;, parameters: None
+[2021-08-07 14:23:13,587] {dbapi.py:212} INFO - Rows affected: 0
+[2021-08-07 14:23:13,609] {taskinstance.py:1211} INFO - Marking task as SUCCESS. dag_id=standardized_pipeline, task_id=create_standardized_table_partsupp, execution_date=20210807T142311, start_date=20210807T142313, end_date=20210807T142313
+[2021-08-07 14:23:13,718] {taskinstance.py:1265} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-08-07 14:23:13,770] {local_task_job.py:149} INFO - Task exited with return code 0
